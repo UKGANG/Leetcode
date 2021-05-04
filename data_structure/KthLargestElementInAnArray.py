@@ -2,7 +2,7 @@
 215. Kth Largest Element in an Array
 https://leetcode.com/problems/kth-largest-element-in-an-array/
 '''
-from heapq import heapify, heappush
+from heapq import heapify
 from typing import List
 from test_tool import assert_value
 
