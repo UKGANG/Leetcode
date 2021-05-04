@@ -10,8 +10,9 @@ from test_tool import assert_value
 class Solution:
     def kmp(self, text: str, keyword: str) -> int:
         match_dict = []
-        for i in range(1, len(keyword) + 1):
-            keyword_chunk = keyword[:i]
+        keyword_len = len(keyword)
+        for i in range(len(keyword)):
+            keyword_chunk = keyword[:i + 1]
             cnt = Counter()
             for j in range(1, len(keyword_chunk)):
                 cnt[keyword_chunk[:j]] += 1
@@ -21,15 +22,14 @@ class Solution:
             match_len = 0
             if len(cnt) > 0:
                 match_len = len(sorted(cnt.items(), key=lambda item: len(item[0]))[0][0])
-            match_dict.append(match_len)
+            match_dict.append(keyword_len - match_len - 1)
 
-        keyword_len = len(keyword)
         text_len = len(text)
         i = 0
         while i < text_len:
             if text_len - i < keyword_len:
                 return -1
-            text_chunk = text[i:i+keyword_len]
+            text_chunk = text[i:i + keyword_len]
 
             matched = True
             for j in range(keyword_len):
@@ -37,7 +37,7 @@ class Solution:
                     if j == 0:
                         i += 1
                     else:
-                        i += keyword_len - 1 - match_dict[j-1]
+                        i += match_dict[j - 1]
                     matched = False
                     break
 
