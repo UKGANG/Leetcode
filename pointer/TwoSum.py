@@ -2,7 +2,6 @@
 1. Two Sum
 https://leetcode.com/problems/two-sum/
 '''
-
 from typing import List
 
 from test_tool import assert_value
@@ -13,8 +12,8 @@ class Solution:
         cache = {}
 
         for i, num in enumerate(nums):
-            if target-num in cache:
-                return [cache[target-num], i]
+            if target - num in cache:
+                return [cache[target - num], i]
 
             cache[num] = i
 
