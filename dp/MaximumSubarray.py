@@ -28,7 +28,7 @@ class Solution:
         mid = max(left_sub) + max(right_sub)
         return max(left, right, mid)
 
-    def maxSubArray(self, nums: List[int]) -> int:
+    def __maxSubArray(self, nums: List[int]) -> int:
         dp = [nums[0]]
 
         for num in nums[1:]:
@@ -36,6 +36,14 @@ class Solution:
 
         return max(dp)
 
+    def maxSubArray(self, nums: List[int]) -> int:
+        max_here = max_global = nums[0]
+
+        for num in nums[1:]:
+            max_here = max(max_here + num, num)
+            max_global = max(max_here, max_global)
+
+        return max_global
 
 assert_value(6, Solution().maxSubArray, nums=[-2, 1, -3, 4, -1, 2, 1, -5, 4])
 assert_value(1, Solution().maxSubArray, nums=[1])
