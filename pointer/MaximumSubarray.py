@@ -28,6 +28,14 @@ class Solution:
         mid = max(left_sub) + max(right_sub)
         return max(left, right, mid)
 
+    def maxSubArray(self, nums: List[int]) -> int:
+        dp = [nums[0]]
+
+        for num in nums[1:]:
+            dp.append(max(num, dp[-1] + num))
+
+        return max(dp)
+
 
 assert_value(6, Solution().maxSubArray, nums=[-2, 1, -3, 4, -1, 2, 1, -5, 4])
 assert_value(1, Solution().maxSubArray, nums=[1])
