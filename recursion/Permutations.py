@@ -21,3 +21,4 @@ class Solution:
 
 
 assert_value([[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]], Solution().permute, nums=[1, 2, 3])
+assert_value([[1, 2], [2, 1]], Solution().permute, nums=[1, 2])
