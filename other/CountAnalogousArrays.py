@@ -1,5 +1,5 @@
 '''
-Amazon | Online Assessment July 2021 | CountAnalogousArrays
+CountAnalogousArrays
 
 '''
 import collections
