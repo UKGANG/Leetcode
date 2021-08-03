@@ -1,5 +1,5 @@
 '''
-Amazon | Online Assessment July 2021 | Secret Array
+Secret Array
 https://leetcode.com/discuss/interview-question/1332322/amazon-online-assessment-july-2021-secret-array
 '''
 from typing import List
