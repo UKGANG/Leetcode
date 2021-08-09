@@ -24,7 +24,7 @@ class Solution:
         return res
 
 
-# assert_value(3, Solution().triangleNumber, nums=[2, 2, 3, 4])
-# assert_value(4, Solution().triangleNumber, nums=[4, 2, 3, 4])
-# assert_value(0, Solution().triangleNumber, nums=[1, 1, 3, 4])
+assert_value(3, Solution().triangleNumber, nums=[2, 2, 3, 4])
+assert_value(4, Solution().triangleNumber, nums=[4, 2, 3, 4])
+assert_value(0, Solution().triangleNumber, nums=[1, 1, 3, 4])
 assert_value(0, Solution().triangleNumber, nums=[7, 0, 0, 0])
