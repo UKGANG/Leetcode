@@ -25,7 +25,7 @@ class Solution:
         while i >= 0 and j < len(s):
             if s[i] != s[j]:
                 break
-            res = max(res, s[i:j + 1], key=len)
+            res = s[i:j + 1]
             i -= 1
             j += 1
         return res
