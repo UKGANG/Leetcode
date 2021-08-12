@@ -1,6 +1,6 @@
 '''
 47. Permutations II
-https://leetcode.com/problems/permutations/
+https://leetcode.com/problems/permutations-ii/
 '''
 from typing import List
 
