@@ -9,21 +9,15 @@ from test_tool import assert_value
 
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        if len(intervals) == 1:
+        if 1 >= len(intervals):
             return intervals
         intervals = sorted(intervals)
-        res, l, r = [], 0, 1
-        while l <= r < len(intervals):
-            right_bound = intervals[l][1]
-            while right_bound >= intervals[r][0]:
-                r += 1
-                if r == len(intervals):
-                    right_bound = max(right_bound, intervals[-1][1])
-                    break
-                right_bound = max(right_bound, intervals[r - 1][1])
-            res.append([intervals[l][0], right_bound])
-            l = r
-
+        res = intervals[:1]
+        for curr_left, curr_right in intervals[1:]:
+            if curr_left <= res[-1][1]:
+                res[-1][1] = max(curr_right, res[-1][1])
+                continue
+            res.append([curr_left, curr_right])
         return res
 
 
