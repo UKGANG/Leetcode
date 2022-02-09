@@ -67,12 +67,6 @@ class Heap:
 
         return res
 
-    def heapify(self):
-        ...
-
-    def get_heap(self):
-        return self._heap
-
 
 heap = Heap()
 random_nums = list(range(100))
