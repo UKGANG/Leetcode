@@ -25,6 +25,7 @@ class MedianHeap:
     def push(self, val: int):
         if not len(self._max_heap):
             heapq.heappush(self._max_heap, -val)
+            return
 
         if len(self._max_heap) >= len(self._min_heap):
             if self._max_heap[0] < -val:
@@ -57,5 +58,5 @@ random.shuffle(random_nums)
 for num in random_nums:
     heap.push(num)
 
-for i in reversed(range(len(random_nums) + 1)):
+for i in reversed(range(len(random_nums))):
     print(heap.pop())
