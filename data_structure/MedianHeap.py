@@ -50,12 +50,6 @@ class MedianHeap:
             return -heapq.heappop(self._max_heap)
         return heapq.heappop(self._min_heap)
 
-    def heapify(self):
-        ...
-
-    def get_heap(self):
-        return self._heap
-
 
 heap = MedianHeap()
 random_nums = list(range(100))
