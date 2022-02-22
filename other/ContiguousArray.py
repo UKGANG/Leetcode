@@ -2,7 +2,6 @@
 525. Contiguous Array
 https://leetcode.com/problems/contiguous-array/
 '''
-import collections
 from typing import List
 
 from test_tool import assert_value
