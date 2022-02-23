@@ -40,7 +40,7 @@ def count_of_nodes(root, queries, s):
             if curr.val == u:
                 res.append(curr.cache[c])
                 break
-            [stack.append(child) for child in curr.children]
+            [stack.append(child) for child in curr.children if child.cache[c]]
 
     return res
 
