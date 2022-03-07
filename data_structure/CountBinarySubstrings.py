@@ -25,6 +25,7 @@ class Solution:
         return cnt
 
 
+assert_value(3, Solution().countBinarySubstrings, s='00110')
 assert_value(6, Solution().countBinarySubstrings, s='00110011')
 assert_value(4, Solution().countBinarySubstrings, s='10101')
 assert_value(4, Solution().countBinarySubstrings, s="11110110000")
