@@ -18,7 +18,11 @@ def getSecondsRequired(N: int, F: int, P: List[int]) -> int:
         right = p
     res += (N - right - 1)
     res += (right - left + 1)
-    return res
+    return F + (N - F - 1) - (min(P) - 1)
+
+
+def getSecondsRequired_v2(N: int, F: int, P: List[int]) -> int:
+    return N - min(P)
 
 
 assert_value(2, getSecondsRequired, N=3, F=1, P=[1])
