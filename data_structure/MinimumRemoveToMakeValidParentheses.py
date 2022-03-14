@@ -7,7 +7,7 @@ from test_tool import assert_value
 
 
 class Solution:
-    def minRemoveToMakeValid(self, s: str) -> str:
+    def minRemoveToMakeValid_v1(self, s: str) -> str:
         res = ''
         stack = []
         for c in s:
@@ -26,7 +26,24 @@ class Solution:
         stack.append(res)
         return ''.join(stack)
 
+    def minRemoveToMakeValid(self, s: str) -> str:
+        stack = []
+        curr = ''
+        for c in s:
+            if c == '(':
+                stack.append(curr)
+                curr = ''
+            elif c == ')':
+                if stack:
+                    curr = stack.pop() + f'({curr})'
+            else:
+                curr = curr + c
+        while stack:
+            curr = stack.pop() + curr
+        return ''.join(curr)
+
 
 assert_value("lee(t(c)o)de", Solution().minRemoveToMakeValid, s="lee(t(c)o)de)")
 assert_value("ab(c)d", Solution().minRemoveToMakeValid, s="a)b(c)d")
 assert_value("", Solution().minRemoveToMakeValid, s="))((")
+assert_value("()()", Solution().minRemoveToMakeValid, s="())()(((")
