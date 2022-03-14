@@ -2,9 +2,6 @@
 75. Sort Colors
 https://leetcode.com/problems/sort-colors/
 '''
-import heapq
-import itertools
-import re
 from typing import List
 
 from test_tool import assert_value
