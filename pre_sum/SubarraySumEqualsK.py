@@ -9,8 +9,7 @@ from test_tool import assert_value
 
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
-        pre_sum = {0:1}
-        pre_sum[0] = 1
+        pre_sum = {0: 1}
         curr = 0
         res = 0
         for num in nums:
