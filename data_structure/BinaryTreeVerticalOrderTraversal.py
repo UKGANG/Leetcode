@@ -4,7 +4,7 @@ https://www.lintcode.com/problem/651/
 '''
 import collections
 from operator import itemgetter
-from typing import List
+from typing import List, Optional
 
 from test_tool import assert_value
 
@@ -25,7 +25,7 @@ class Solution:
     @return: the vertical order traversal
     """
 
-    def vertical_order(self, root: TreeNode) -> List[List[int]]:
+    def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root:
             return []
         res = collections.defaultdict(list)
