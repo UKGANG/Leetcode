@@ -18,6 +18,24 @@ class ListNode:
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
         lists = [n for n in lists if n]
+        h = []
+        for idx, node in enumerate(lists):
+            heapq.heappush(h, (node.val, idx, node))
+
+        dummy = ListNode()
+        curr = dummy
+        while h:
+            _, idx, curr.next = heapq.heappop(h)
+            curr = curr.next
+            if curr.next:
+                heapq.heappush(h, (curr.next.val, idx, curr.next))
+
+        curr.next = None
+
+        return dummy.next
+
+    def _mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        lists = [n for n in lists if n]
         priority_queue = []
         for idx, node in enumerate(lists):
             heapq.heappush(priority_queue, (node.val, idx))
