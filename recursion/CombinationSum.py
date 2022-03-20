@@ -2,9 +2,6 @@
 39. Combination Sum
 https://leetcode.com/problems/combination-sum/
 '''
-import collections
-from functools import lru_cache
-import re
 from typing import List, Tuple
 
 from test_tool import assert_value
