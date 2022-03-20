@@ -18,7 +18,9 @@ class Solution:
     @param root: root of a tree
     @return: head node of a doubly linked list
     """
-    def treeToDoublyList(self, root):
+    def treeToDoublyList(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        if not root:
+            return None
         curr = root
         dummy = TreeNode(None)
         head = dummy
