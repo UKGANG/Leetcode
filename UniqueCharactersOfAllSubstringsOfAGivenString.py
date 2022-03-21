@@ -1,6 +1,7 @@
 '''
 828. Count Unique Characters of All Substrings of a Given String
 https://leetcode.com/problems/count-unique-characters-of-all-substrings-of-a-given-string/
+https://leetcode.com/problems/count-unique-characters-of-all-substrings-of-a-given-string/discuss/423812/Python-detailed-explanation
 '''
 from collections import defaultdict
 from typing import List
