@@ -10,37 +10,39 @@ from test_tool import assert_value
 class Solution:
     def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
         res = []
-        line = []
-        cnt_left = maxWidth
+        space_left = maxWidth
+        line_words = []
         for word in words:
-            if cnt_left < len(word):
-                self.format(cnt_left, res, line)
-                cnt_left = maxWidth
-
-            cnt_left = cnt_left - len(word) - 1
-            line.append(word)
-
-        self.format(cnt_left, res, line, True)
-
+            if space_left < len(word):
+                res.append(self.format(line_words, maxWidth))
+                space_left = maxWidth
+                line_words.clear()
+            line_words.append(word)
+            space_left -= (len(word) + 1)
+        if line_words:
+            res.append(self.format([' '.join(line_words)], maxWidth))
         return res
 
-    def format(self, cnt_left, res, line, last=False):
-        space_cnt = cnt_left + len(line)
+    def format(self, line_words: List[str], maxWidth: int) -> str:
+        if len(line_words) == 1:
+            space = ' ' * (maxWidth - len(line_words[0]))
+            return line_words[0] + space
+        n_space = maxWidth - sum(len(word) for word in line_words)
+        n_slot = len(line_words) - 1
+        n_orphan = n_space % n_slot
+        n_common_space = n_space // n_slot
 
-        if len(line) > 1 and not last:
-            space_even = int(space_cnt / (len(line) - 1))
-            space_res = space_cnt % (len(line) - 1)
-            line_str = line[0]
-            for i in range(space_res):
-                line_str += ' ' * (space_even + 1) + line[i + 1]
-            for i in range(len(line) - 1 - space_res):
-                line_str += ' ' * space_even + line[i + 1 + space_res]
-        else:
-            line_str = ' '.join(line)
-            line_str += ' ' * (cnt_left + 1)
-
-        res.append(line_str)
-        line.clear()
+        orphan_space = ' ' * (n_common_space + 1)
+        common_space = ' ' * n_common_space
+        res = ''
+        for i in range(n_orphan):
+            res += line_words[i]
+            res += orphan_space
+        for i in range(n_orphan, n_slot):
+            res += line_words[i]
+            res += common_space
+        res += line_words[-1]
+        return res
 
 
 assert_value([
