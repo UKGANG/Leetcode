@@ -9,24 +9,24 @@ from test_tool import assert_value
 
 class Solution:
     def __init__(self):
-        self._opt = {
+        self._op = {
             '+': lambda a, b: a + b,
             '-': lambda a, b: a - b,
             '*': lambda a, b: a * b,
-            '/': lambda a, b: int(a / b),
+            '/': lambda a, b: a / b,
         }
 
     def evalRPN(self, tokens: List[str]) -> int:
-        stack = []
+        num_stack = []
         for token in tokens:
-            if token in self._opt:
-                b = stack.pop()
-                a = stack.pop()
-                res = self._opt[token](a, b)
-                stack.append(res)
+            if token not in self._op:
+                num_stack.append(int(token))
             else:
-                stack.append(int(token))
-        return stack[0]
+                b = num_stack.pop()
+                a = num_stack.pop()
+                c = self._op[token](a, b)
+                num_stack.append(int(c))
+        return num_stack[-1]
 
 
 assert_value(9, Solution().evalRPN, tokens=["2", "1", "+", "3", "*"])
