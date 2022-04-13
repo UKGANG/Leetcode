@@ -11,14 +11,17 @@ class Solution:
     def longestStrChain(self, words: List[str]) -> int:
         words = sorted(words, key=len)
         cache = {}
+        res = 0
         for word in words:
+            cache[word] = 0
             for i in range(len(word)):
-                key = word[:i] + word[i + 1:]
-                cache[word] = cache.get(word, 0)
-                cnt = cache.get(key, 0) + 1
-                cache[word] = max(cnt, cache[word])
-
-        return max(cache.values())
+                key = word[:i] + word[i+1:]
+                if key not in cache:
+                    continue
+                cache[word] = max(cache[word], cache[key])
+            cache[word] += 1
+            res = max(res, cache[word])
+        return res
 
 
 assert_value(4, Solution().longestStrChain, words=["a", "b", "ba", "bca", "bda", "bdca"])
