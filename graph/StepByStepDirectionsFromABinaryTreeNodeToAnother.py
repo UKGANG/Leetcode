@@ -21,32 +21,31 @@ class Solution:
         self.find(root, startValue, cache_start)
         cache_dest = []
         self.find(root, destValue, cache_dest)
+        i = 0
         cache_start = cache_start[::-1]
         cache_dest = cache_dest[::-1]
-        i = 0
-
-        while i < len(cache_start) and i < len(cache_dest) and cache_start[i][1] == cache_dest[i][1]:
+        while i < len(cache_start) and i < len(cache_dest) and cache_start[i][0] == cache_dest[i][0]:
             i += 1
 
-        dest = cache_dest[i:]
+        end = [s for v, s in cache_dest[i:]]
         start = 'U' * (len(cache_start) - i)
-        dest = ''.join([d for d, v in dest])
 
-        return start + dest
+        return start + ''.join(end)
 
-    def find(self, root: TreeNode, target: int, cache: List[Tuple[str, int]]) -> bool:
+    def find(self, root: TreeNode, target: int, cache: List[Tuple[int, str]]) -> bool:
         if not root:
             return False
         if root.val == target:
-            cache.append([None, root.val])
+            cache.append([root.val, None])
             return True
         left = self.find(root.left, target, cache)
         if left:
-            cache[-1][0] = 'L'
-            cache.append([None, root.val])
+            cache[-1][1] = 'L'
+            cache.append([root.val, None])
             return True
         right = self.find(root.right, target, cache)
         if right:
-            cache[-1][0] = 'R'
-            cache.append([None, root.val])
+            cache[-1][1] = 'R'
+            cache.append([root.val, None])
             return True
+        return False
