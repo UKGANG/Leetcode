@@ -8,80 +8,28 @@ from test_tool import assert_value
 
 
 class Solution:
+    def __init__(self):
+        self._opt_map = {
+            '+': lambda a, b: a + b,
+            '-': lambda a, b: a - b,
+            '*': lambda a, b: a * b,
+            '/': lambda a, b: a / b,
+        }
+
     def calculate(self, s: str) -> int:
-        s = s.replace(' ', '')
+        curr = ''
+        prefix = ''
         stack = []
-        expr = ''
         for c in s:
-            if c == '(':
-                stack.append(expr)
-                expr = ''
-            elif c == ')':
-                try:
-                    num = self._calculate_v2(expr)
-                except:
-                    print()
-                expr = stack.pop() if stack else ''
-                # edge cases
-                if num < 0:
-                    if not expr:
-                        expr = str(num)
-                        continue
-                    if expr[-1] == '-':
-                        expr = expr[: -1] + '+'
-                        num *= -1
-                    elif expr[-1] == '+':
-                        expr = expr[: -1]
-                    else:
-                        if expr[0] == '-':
-                            expr = expr[1:]
-                        else:
-                            expr = '-' + expr
-                        num *= -1
-
-                expr = f'{expr}{num}'
-            else:
-                expr += c
-
-        return self._calculate_v2(expr)
-
-    def _calculate_v2(self, s: str) -> int:
-        s = s.replace(" ", "")
-        num = ''
-        stack = []
-        idx = 0
-        while idx < len(s):
-            c = s[idx]
-            if s[idx].isnumeric():
-                num += c
-                idx += 1
+            if c.isnumeric():
+                curr += c
                 continue
-            if num:
-                stack.append(int(num))
-            if c == '+':
-                num = ''
-                idx += 1
-            elif c == '-':
-                num = '-'
-                idx += 1
-            else:
-                curr = stack.pop()
-                idx += 1
-                num = ''
-                while idx < len(s) and s[idx].isnumeric():
-                    num += s[idx]
-                    idx += 1
-                if c == '*':
-                    curr *= int(num)
-                else:
-                    curr /= int(num)
-                    curr = int(curr)
-                num = ''
-                stack.append(curr)
-        if not num:
-            num = '0'
-        num = int(num)
-        return sum(stack) + num
+            
+
+
+
+        ...
+
 
 
 assert_value(2, Solution().calculate, s="1 + 1")
