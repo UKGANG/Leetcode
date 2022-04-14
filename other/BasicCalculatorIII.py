@@ -13,23 +13,73 @@ class Solution:
             '+': lambda a, b: a + b,
             '-': lambda a, b: a - b,
             '*': lambda a, b: a * b,
-            '/': lambda a, b: a / b,
+            '/': lambda a, b: int(a / b),
         }
 
     def calculate(self, s: str) -> int:
         curr = ''
-        prefix = ''
         stack = []
         for c in s:
-            if c.isnumeric():
+            if c.isnumeric() or c in self._opt_map:
                 curr += c
                 continue
-            
+            if c == '(':
+                stack.append(curr)
+                curr = ''
+                continue
+            if c == ')':
+                curr = f'{self.calculate_without_bracket(curr)}'
+                if not stack:
+                    curr = str(curr)
+                    continue
+                prev = stack.pop()
+                if not prev:
+                    continue
 
+                if curr[0] == '-':
+                    sign = prev[-1]
+                    if sign == '-':
+                        curr = f'{prev[:-1]}+{curr[1:]}'
+                    elif sign == '+':
+                        curr = f'{prev[:-1]}{curr}'
+                    else:
+                        if prev[0] == '-':
+                            curr = f'{prev[1:]}{curr[1:]}'
+                        else:
+                            curr = f'-{prev}{curr[1:]}'
+                else:
+                    curr = f'{prev}{curr}'
 
+        return int(self.calculate_without_bracket(curr))
 
-        ...
+    def calculate_without_bracket(self, s):
+        s = s.replace(" ", "")
+        stack = []
+        prev = ''
+        idx = 0
+        while idx < len(s):
+            c = s[idx]
+            if c.isnumeric():
+                prev += c
+                idx += 1
+                continue
+            if c in '+-':
+                if prev:
+                    stack.append(int(prev))
+                prev = c
+                idx += 1
+                continue
+            while idx < len(s) and s[idx] in "*/":
+                opt = self._opt_map[s[idx]]
+                idx += 1
+                curr = ''
+                while idx < len(s) and s[idx].isnumeric():
+                    curr += s[idx]
+                    idx += 1
+                prev = opt(int(prev), int(curr))
 
+        stack.append(int(prev))
+        return sum(stack)
 
 
 assert_value(2, Solution().calculate, s="1 + 1")
