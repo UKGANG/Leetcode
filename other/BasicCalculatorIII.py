@@ -36,21 +36,27 @@ class Solution:
                 if not prev:
                     continue
 
+                # to find the first + or - sign
                 if curr[0] == '-':
-                    sign = prev[-1]
+                    idx = self.find_first_plus_minus_sign(prev)
+                    if idx == -1:
+                        curr = f'-{prev}{curr[1:]}'
+                        continue
+                    sign = prev[idx]
                     if sign == '-':
-                        curr = f'{prev[:-1]}+{curr[1:]}'
-                    elif sign == '+':
-                        curr = f'{prev[:-1]}{curr}'
+                        curr = f'{prev[:idx]}+{prev[idx + 1:]}{curr[1:]}'
                     else:
-                        if prev[0] == '-':
-                            curr = f'{prev[1:]}{curr[1:]}'
-                        else:
-                            curr = f'-{prev}{curr[1:]}'
+                        curr = f'{prev[:idx]}-{prev[idx + 1:]}{curr[1:]}'
                 else:
                     curr = f'{prev}{curr}'
 
         return int(self.calculate_without_bracket(curr))
+
+    def find_first_plus_minus_sign(self, s):
+        for i in range(len(s) - 1, -1, -1):
+            if s[i] in "+-":
+                return i
+        return -1
 
     def calculate_without_bracket(self, s):
         s = s.replace(" ", "")
@@ -82,6 +88,7 @@ class Solution:
         return sum(stack)
 
 
+assert_value(-1, Solution().calculate, s="1 + 1 * 2 * (1 - 2)")
 assert_value(2, Solution().calculate, s="1 + 1")
 assert_value(4, Solution().calculate, s="6-4/2")
 assert_value(21, Solution().calculate, s="2*(5+5*2)/3+(6/2+8)")
