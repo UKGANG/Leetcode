@@ -20,26 +20,28 @@ class Solution:
         """
         Do not return anything, modify root in-place instead.
         """
+        stack = [root]
         curr = root
-        stack = []
-        left = None
-        right = None
         prev = None
-        while stack or curr:
+        low, high = None, None
+        while stack:
             while curr:
-                stack.append(curr)
+                if curr.left:
+                    stack.append(curr.left)
                 curr = curr.left
-            if stack:
-                curr = stack.pop()
-                if prev and prev.val > curr.val:
-                    if not left:
-                        left = prev
-                    right = curr
-                prev = curr
-                curr = curr.right
+            curr = stack.pop()
 
-        # swap
-        left.val, right.val = right.val, left.val
+            if prev and prev.val > curr.val:
+                if not low:
+                    low = prev
+                high = curr
+            prev = curr
+
+            if curr.right:
+                stack.append(curr.right)
+            curr = curr.right
+
+        low.val, high.val = high.val, low.val
 
 
 s = Solution()
