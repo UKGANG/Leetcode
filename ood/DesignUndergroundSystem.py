@@ -2,6 +2,7 @@
 1396. Design Underground System
 https://leetcode.com/problems/design-underground-system/
 '''
+import collections
 from collections import defaultdict
 from test_tool import assert_value
 
@@ -9,43 +10,20 @@ from test_tool import assert_value
 class UndergroundSystem:
 
     def __init__(self):
-        self._id_cache = {}
-        self._station_cache = defaultdict(set)
+        self._online_log = {}
+        self._offline_log = collections.defaultdict(list)
 
     def checkIn(self, id: int, stationName: str, t: int) -> None:
-        transaction = Transaction(id, stationName, t)
-        self._id_cache[id] = transaction
-        self._station_cache[stationName].add(transaction)
+        self._online_log[id] = (stationName, t)
 
     def checkOut(self, id: int, stationName: str, t: int) -> None:
-        self._id_cache[id].checkOut(stationName, t)
-        self._station_cache[stationName].add(self._id_cache[id])
+        stationName_start, t_start = self._online_log[id]
+        del self._online_log[id]
+        self._offline_log[(stationName_start, stationName)].append(t - t_start)
 
     def getAverageTime(self, startStation: str, endStation: str) -> float:
-        txns = self._station_cache[startStation]
-        txns = [txn for txn in txns if txn in self._station_cache[endStation]]
-        txns = [txn for txn in txns if txn.end]
-        total = [txn.end - txn.begin for txn in txns]
-        return sum(total) / len(total)
-
-
-class Transaction:
-    def __init__(self, id: int, checkin_station: str, begin: int):
-        self._id = id
-        self._checkin_station = checkin_station
-        self._begin = begin
-
-    def checkOut(self, checkout_station: str, end: int):
-        self._checkout_station = checkout_station
-        self._end = end
-
-    @property
-    def begin(self):
-        return self._begin
-
-    @property
-    def end(self):
-        return self._end
+        time_logs = self._offline_log[(startStation, endStation)]
+        return sum(time_logs) / len(time_logs)
 
 
 undergroundSystem = UndergroundSystem()
