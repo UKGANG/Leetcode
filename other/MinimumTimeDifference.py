@@ -11,7 +11,7 @@ class Solution:
     def findMinDifference(self, timePoints: List[str]) -> int:
         minutes = [self.convert_to_min(ts) for ts in timePoints]
         minutes = sorted(minutes)
-        minutes += [m + 24 * 60 for m in minutes]
+        minutes.append(minutes[0] + 24 * 60)
         diff = []
         for i in range(1, len(minutes)):
             diff.append(minutes[i] - minutes[i - 1])
