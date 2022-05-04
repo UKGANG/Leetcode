@@ -17,20 +17,23 @@ class TreeNode:
 
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        q = [root]
+        if not root:
+            return []
         res = []
+        q = [(root)]
         while q:
-            curr = []
-            q_next = []
-            for node in q:
-                if not node:
-                    continue
-                curr.append(node.val)
-                if node.left:
-                    q_next.append(node.left)
-                if node.right:
-                    q_next.append(node.right)
-            if curr:
-                res.append(curr)
-            q = q_next
+            res_level = []
+            q = self.level_taverse(q, res_level)
+            res.append(res_level)
         return res
+
+    def level_taverse(self, queue: List[TreeNode], res: List[int]) -> List[TreeNode]:
+        queue_next = []
+        for node in queue:
+            res.append(node.val)
+            if node.left:
+                queue_next.append(node.left)
+            if node.right:
+                queue_next.append(node.right)
+
+        return queue_next
