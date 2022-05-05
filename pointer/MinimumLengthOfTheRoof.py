@@ -19,9 +19,10 @@ class Solution:
             window_start = parking_spot[i - k + 1]
             window_end = parking_spot[i]
             window_length = window_end - window_start
+            window_length += 1
             res = min(res, window_length)
 
         return res
 
 
-assert_value(1, Solution().min_roof, parking_spot=[2,5,6,7], k=)
+assert_value(3, Solution().min_roof, parking_spot=[2, 5, 6, 7], k=3)
