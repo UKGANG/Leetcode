@@ -18,6 +18,8 @@ class Solution:
             q_next = set()
             for s in q:
                 for j in range(len(s)):
+                    if s[j] not in '()':
+                        continue
                     q_next.add(f'{s[:j]}{s[j + 1:]}')
             q = q_next
 
