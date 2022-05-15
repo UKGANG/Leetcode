@@ -8,84 +8,46 @@ from test_tool import assert_value
 
 
 class Solution:
-    def __init__(self):
-        self._opt_map = {
-            '+': lambda a, b: a + b,
-            '-': lambda a, b: a - b,
-            '*': lambda a, b: a * b,
-            '/': lambda a, b: int(a / b),
-        }
-
     def calculate(self, s: str) -> int:
-        curr = ''
-        stack = []
-        for c in s:
-            if c.isnumeric() or c in self._opt_map:
-                curr += c
-                continue
-            if c == '(':
-                stack.append(curr)
-                curr = ''
-                continue
-            if c == ')':
-                curr = f'{self.calculate_without_bracket(curr)}'
-                if not stack:
-                    curr = str(curr)
-                    continue
-                prev = stack.pop()
-                if not prev:
-                    continue
-
-                # to find the first + or - sign
-                if curr[0] == '-':
-                    idx = self.find_first_plus_minus_sign(prev)
-                    if idx == -1:
-                        curr = f'-{prev}{curr[1:]}'
-                        continue
-                    sign = prev[idx]
-                    if sign == '-':
-                        curr = f'{prev[:idx]}+{prev[idx + 1:]}{curr[1:]}'
-                    else:
-                        curr = f'{prev[:idx]}-{prev[idx + 1:]}{curr[1:]}'
-                else:
-                    curr = f'{prev}{curr}'
-
-        return int(self.calculate_without_bracket(curr))
-
-    def find_first_plus_minus_sign(self, s):
-        for i in range(len(s) - 1, -1, -1):
-            if s[i] in "+-":
-                return i
-        return -1
-
-    def calculate_without_bracket(self, s):
         s = s.replace(" ", "")
-        stack = []
-        prev = ''
-        idx = 0
-        while idx < len(s):
-            c = s[idx]
-            if c.isnumeric():
-                prev += c
-                idx += 1
-                continue
-            if c in '+-':
-                if prev:
-                    stack.append(int(prev))
-                prev = c
-                idx += 1
-                continue
-            while idx < len(s) and s[idx] in "*/":
-                opt = self._opt_map[s[idx]]
-                idx += 1
-                curr = ''
-                while idx < len(s) and s[idx].isnumeric():
-                    curr += s[idx]
-                    idx += 1
-                prev = opt(int(prev), int(curr))
+        for opt in "+-*/()":
+            s = s.replace(opt, f' {opt} ')
+        s = s.rstrip().lstrip()
+        opt = "+"
+        stack = [["+", 0, 0]]
+        for token in s.split():
+            if token.isnumeric():
+                self.simple_caloculate(opt, token, stack)
+            else:
+                if token in "+-*/":
+                    opt = token
+                else:
+                    if token == '(':
+                        stack.append([opt, 0, 0])
+                        opt = '+'
+                    else:
+                        opt, curr, prev = stack.pop()
+                        self.simple_caloculate(opt, curr, stack)
+        return stack[-1][1]
 
-        stack.append(int(prev))
-        return sum(stack)
+    def simple_caloculate(self, opt, token, stack):
+        token = int(token)
+        if opt == "+":
+            stack[-1][2] = token
+            stack[-1][1] = stack[-1][1] + token
+        elif opt == "-":
+            stack[-1][2] = -token
+            stack[-1][1] = stack[-1][1] - token
+        elif opt == "*":
+            curr, prev = stack[-1][1:]
+            curr, prev = curr - prev + prev * token, prev * token
+            stack[-1][2] = prev
+            stack[-1][1] = curr
+        elif opt == "/":
+            curr, prev = stack[-1][1:]
+            curr, prev = curr - prev + int(prev / token), int(prev / token)
+            stack[-1][2] = prev
+            stack[-1][1] = curr
 
 
 assert_value(-1, Solution().calculate, s="1 + 1 * 2 * (1 - 2)")
