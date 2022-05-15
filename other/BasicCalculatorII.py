@@ -11,6 +11,34 @@ from test_tool import assert_value
 
 class Solution:
     def calculate(self, s: str) -> int:
+        s = s.replace(' ', '')
+        for opt in "+-*/":
+            s = s.replace(opt, f' {opt} ')
+        s = s.lstrip().rstrip()
+        opt = "+"
+        curr, prev = 0, 0
+        for token in s.split():
+            if token in "+-*/":
+                opt = token
+            else:
+                token = int(token)
+                if opt == "+":
+                    curr += token
+                    prev = token
+                elif opt == "-":
+                    curr -= token
+                    prev = -token
+                elif opt == "/":
+                    curr = curr - prev + int(prev / token)
+                    prev /= token
+                    prev = int(prev)
+                else:
+                    curr = curr - prev + prev * token
+                    prev *= token
+
+        return curr
+
+    def _calculate(self, s: str) -> int:
         s = s.replace(" ", "")
         num = ''
         stack = []
@@ -48,7 +76,7 @@ class Solution:
         num = int(num)
         return sum(stack) + num
 
-    def _calculate(self, s: str) -> int:
+    def __calculate(self, s: str) -> int:
         s = s.replace(" ", "")
 
         first_negative = False
