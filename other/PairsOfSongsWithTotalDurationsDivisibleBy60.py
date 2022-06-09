@@ -10,6 +10,21 @@ from test_tool import assert_value
 
 class Solution:
     def numPairsDivisibleBy60(self, time: List[int]) -> int:
+        time = [t % 60 for t in time]
+        cache = collections.Counter(time)
+
+        keys = [key for key in cache.keys() if 0 < key < 30]
+
+        res = 0
+        for first in keys:
+            res += (cache[first] * cache[60 - first])
+
+        for first in [0, 30]:
+            res += ((cache[first] * (cache[first] - 1)) >> 1)
+
+        return res
+
+    def _numPairsDivisibleBy60(self, time: List[int]) -> int:
         cache = {}
         for song in time:
             song %= 60
@@ -26,7 +41,7 @@ class Solution:
 
         return res
 
-    def _numPairsDivisibleBy60(self, time: List[int]) -> int:
+    def __numPairsDivisibleBy60(self, time: List[int]) -> int:
         time = [t % 60 for t in time]
         cnt = collections.Counter(time)
         cnt_30 = (cnt[30] * (cnt[30] - 1)) >> 1
@@ -39,7 +54,7 @@ class Solution:
         return res
 
 
-# assert_value(3, Solution().numPairsDivisibleBy60, time=[30, 20, 150, 100, 40])
-# assert_value(3, Solution().numPairsDivisibleBy60, time=[60, 60, 60])
+assert_value(3, Solution().numPairsDivisibleBy60, time=[30, 20, 150, 100, 40])
+assert_value(3, Solution().numPairsDivisibleBy60, time=[60, 60, 60])
 assert_value(1, Solution().numPairsDivisibleBy60, time=[451, 209])
-# assert_value(1, Solution().numPairsDivisibleBy60, time=[15,63,451,213,37,209,343,319])
+assert_value(1, Solution().numPairsDivisibleBy60, time=[15, 63, 451, 213, 37, 209, 343, 319])
