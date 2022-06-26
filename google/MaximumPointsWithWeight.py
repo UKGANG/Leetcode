@@ -1,7 +1,7 @@
 '''
 1423. Maximum Points You Can Obtain from Cards
 https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/
-follow up: what if there is a weighted arr k = [1,-1,3] 具体描述不太记得了
+follow up: what if there is a weighted skill k = [1,-1,3] 具体描述不太记得了
 '''
 from typing import List
 
