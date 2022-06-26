@@ -2,11 +2,7 @@
 Find Lowest Price
 https://algo.monster/problems/amazon-oa-find-lowest-price
 '''
-import collections
-import heapq
-from enum import Enum
-from operator import itemgetter
-from typing import List, Optional, Tuple
+from typing import List
 
 from test_tool import assert_value
 
