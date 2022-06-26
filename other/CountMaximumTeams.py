@@ -1,6 +1,6 @@
 '''
 Count Maximum Teams
-https://algo.monster/problems/amazon_oa_count_maximum_teams
+https://leetcode.com/discuss/interview-question/1594880/Amazon-OA-questions-countMaximumTeams
 '''
 from typing import List
 
