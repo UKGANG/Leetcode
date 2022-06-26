@@ -2,10 +2,7 @@
 Efficient Harvest
 https://leetcode.com/discuss/interview-question/1321204/efficient-harvest-faang-oa-question-2021
 '''
-import collections
-import heapq
-from operator import itemgetter
-from typing import List, Optional, Tuple
+from typing import List
 
 from test_tool import assert_value
 
