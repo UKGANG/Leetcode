@@ -21,6 +21,6 @@ class Solution:
         return res
 
 
-# assert_value(2, Solution().countMaximumTeams, skill=[3, 4, 3, 1, 6, 5], size=3, diff=2)
-# assert_value(2, Solution().countMaximumTeams, skill=[20, 22, 23, 14, 16, 15], size=3, diff=4)
-assert_value(1, Solution().countMaximumTeams, skill=[10, 15, 9, 10, 9, 1, 3, 3], size=5, diff=2)
+assert_value(2, Solution().countMaximumTeams, skill=[3, 4, 3, 1, 6, 5], size=3, diff=2)
+assert_value(2, Solution().countMaximumTeams, skill=[20, 22, 23, 14, 16, 15], size=3, diff=4)
+assert_value(1, Solution().countMaximumTeams, skill=[10, 15, 9, 10, 9, 1, 3, 3], size=4, diff=2)
