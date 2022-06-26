@@ -2,6 +2,7 @@
 200. Number of Islands
 https://leetcode.com/problems/number-of-islands/
 '''
+import itertools
 from typing import List
 
 from test_tool import assert_value
@@ -9,10 +10,9 @@ from test_tool import assert_value
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        m, n = len(grid), len(grid[0])
         cnt = 0
-        accessed = []
-        for i in range(len(grid)):
-            accessed.append([False for i in range(len(grid[0]))])
+        accessed = [[False] * n for _ in range(m)]
 
         for i in range(len(accessed)):
             for j in range(len(accessed[0])):
@@ -26,15 +26,18 @@ class Solution:
         return cnt
 
     def dfs(self, grid, accessed, i, j):
-        accessed[i][j] = True
-        if i + 1 < len(grid) and not accessed[i + 1][j] and '1' == grid[i + 1][j]:
-            self.dfs(grid, accessed, i + 1, j)
-        if j + 1 < len(grid[0]) and not accessed[i][j + 1] and '1' == grid[i][j + 1]:
-            self.dfs(grid, accessed, i, j + 1)
-        if i > 0 and not accessed[i - 1][j] and '1' == grid[i - 1][j]:
-            self.dfs(grid, accessed, i - 1, j)
-        if j > 0 and not accessed[i][j - 1] and '1' == grid[i][j - 1]:
-            self.dfs(grid, accessed, i, j - 1)
+        m, n = len(grid), len(grid[0])
+        curr_queue = [(i, j)]
+        offset = itertools.product([-1, 0, 1], [-1, 0, 1])
+        offset = [(di, dj) for di, dj in offset if di * dj == 0 and di != dj]
+        while curr_queue:
+            i, j = curr_queue.pop()
+            accessed[i][j] = True
+            move = [(i + di, j + dj) for di, dj in offset]
+            move = [(x, y) for x, y in move if 0 <= x < m and 0 <= y < n]
+            move = [(x, y) for x, y in move if not accessed[x][y] and grid[x][y] == '1']
+            for x, y in move:
+                curr_queue.append((x, y))
 
 
 assert_value(1, Solution().numIslands, grid=[
