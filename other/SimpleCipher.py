@@ -8,7 +8,7 @@ from test_tool import assert_value
 
 
 class Solution:
-    def simple_cipher(self, encryped: str, k: int):
+    def simple_cipher(self, encryped: str, k: int) -> str:
         offset = ord('A')
         res = ''
         for c in encryped:
