@@ -9,6 +9,17 @@ from test_tool import assert_value
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
+        stack = []
+        res = 0
+        for p in prices:
+            p_prev = p
+            while stack and stack[-1] < p:
+                p_prev = min(p_prev, stack.pop())
+            res += p - p_prev
+            stack.append(p)
+        return res
+
+    def _maxProfit(self, prices: List[int]) -> int:
         diff = [prices[i] - prices[i - 1] for i in range(1, len(prices))]
         diff = [d for d in diff if d > 0]
         return sum(diff)
