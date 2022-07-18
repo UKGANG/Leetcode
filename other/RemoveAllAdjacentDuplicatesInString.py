@@ -2,13 +2,21 @@
 1047. Remove All Adjacent Duplicates In String
 https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/
 '''
-from typing import List
 
 from test_tool import assert_value
 
 
 class Solution:
     def removeDuplicates(self, s: str) -> str:
+        stack = []
+        for c in s:
+            if not stack or stack[-1] != c:
+                stack.append(c)
+            else:
+                stack.pop()
+        return ''.join(stack)
+
+    def _removeDuplicates(self, s: str) -> str:
         s = list(s)
         while True:
             cnt = 0
