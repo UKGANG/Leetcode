@@ -9,6 +9,9 @@ from test_tool import assert_value
 
 class Solution:
     def subArrayRanges(self, nums: List[int]) -> int:
+        ...
+
+    def _subArrayRanges(self, nums: List[int]) -> int:
         res = 0
         for i in range(len(nums)):
             v_max, v_min = nums[i], nums[i]
