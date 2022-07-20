@@ -10,7 +10,7 @@ from test_tool import assert_value
 
 
 class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
+    def _threeSum(self, nums: List[int]) -> List[List[int]]:
         cache = {}
         for i in range(len(nums) - 1):
             for j in range(i + 1, len(nums)):
