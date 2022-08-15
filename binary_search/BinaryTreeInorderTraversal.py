@@ -2,7 +2,7 @@
 94. Binary Tree Inorder Traversal
 https://leetcode.com/problems/binary-tree-inorder-traversal/
 '''
-from typing import Optional
+from typing import Optional, List
 
 
 class TreeNode:
