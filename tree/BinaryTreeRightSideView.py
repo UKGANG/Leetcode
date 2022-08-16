@@ -2,6 +2,7 @@
 199. Binary Tree Right Side View
 https://leetcode.com/problems/binary-tree-right-side-view/
 '''
+import collections
 from typing import List, Optional
 
 from test_tool import assert_value
@@ -17,11 +18,29 @@ class TreeNode:
 
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        res = []
+        curr_level = collections.deque([root])
+        while curr_level:
+            size = len(curr_level)
+            for i in range(size):
+                curr = curr_level.popleft()
+                if curr.left:
+                    curr_level.append(curr.left)
+                if curr.right:
+                    curr_level.append(curr.right)
+                if i == size - 1:
+                    res.append(curr.val)
+
+        return res
+
+    def _rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         res = {}
-        self.traverse(root, 0, res)
+        self._traverse(root, 0, res)
         return [item[1].val for item in sorted(res.items())]
 
-    def traverse(self, node: Optional[TreeNode], level: int, cache: dict):
+    def _traverse(self, node: Optional[TreeNode], level: int, cache: dict):
         if not node:
             return
         self.traverse(node.left, level + 1, cache)
