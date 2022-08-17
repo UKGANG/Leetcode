@@ -2,7 +2,8 @@
 104. Maximum Depth of Binary Tree
 https://leetcode.com/problems/maximum-depth-of-binary-tree/
 '''
-from typing import List
+import collections
+from typing import List, Optional
 
 from test_tool import assert_value
 
@@ -16,7 +17,23 @@ class TreeNode:
 
 
 class Solution:
-    def maxDepth(self, root: TreeNode) -> int:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        res = 0
+        curr_level = collections.deque([root])
+        while curr_level:
+            res += 1
+            size = len(curr_level)
+            for i in range(size):
+                curr = curr_level.popleft()
+                if curr.left:
+                    curr_level.append(curr.left)
+                if curr.right:
+                    curr_level.append(curr.right)
+        return res
+
+    def _maxDepth(self, root: TreeNode) -> int:
         if not root:
             return 0
         q = [(root, 1)]
