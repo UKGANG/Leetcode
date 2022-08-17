@@ -17,6 +17,30 @@ class TreeNode:
 
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return root
+        self.invertTree(root.left)
+        root.left, root.right = root.right, root.left
+        self.invertTree(root.left)
+        return root
+
+    def _invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return root
+        root.left, root.right = root.right, root.left
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+        return root
+
+    def __invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return root
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+        root.left, root.right = root.right, root.left
+        return root
+
+    def ___invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         curr = root
         stack = []
         while curr or stack:
@@ -29,7 +53,7 @@ class Solution:
                 curr = curr.left
         return root
 
-    def _invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+    def ____invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         stack = [root]
         while stack:
             curr = stack.pop()
@@ -40,7 +64,7 @@ class Solution:
             stack.append(curr.right)
         return root
 
-    def __invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+    def _____invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         if not root:
             return root
         curr_level = collections.deque([root])
