@@ -17,6 +17,27 @@ class TreeNode:
 
 class Solution:
     def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
+        global max_val
+        global max_depth
+        max_val = root.val
+        max_depth = 0
+
+        def backtrack(node, depth):
+            global max_val
+            global max_depth
+            if not node.left and not node.right:
+                if depth > max_depth:
+                    max_val, max_depth = node.val, depth
+                return
+            if node.left:
+                backtrack(node.left, depth + 1)
+            if node.right:
+                backtrack(node.right, depth + 1)
+
+        backtrack(root, 0)
+        return max_val
+
+    def _findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
         res = None
         curr_level = collections.deque([root])
         while curr_level:
