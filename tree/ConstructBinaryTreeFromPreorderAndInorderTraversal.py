@@ -17,13 +17,13 @@ class TreeNode:
 
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        inorder_idx = {n: i for i, n in enumerate(inorder)}
+
         def backtrack(start_inorder, end_inorder, mid_preorder):
             if start_inorder == end_inorder:
                 return None
             res = TreeNode(preorder[mid_preorder])
-            mid_inorder = start_inorder
-            while inorder[mid_inorder] != preorder[mid_preorder]:
-                mid_inorder += 1
+            mid_inorder = inorder_idx[preorder[mid_preorder]]
             res.left = backtrack(start_inorder, mid_inorder, mid_preorder + 1)
             res.right = backtrack(mid_inorder + 1, end_inorder, mid_preorder + mid_inorder - start_inorder + 1)
             return res
