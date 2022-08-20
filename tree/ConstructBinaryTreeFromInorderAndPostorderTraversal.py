@@ -24,8 +24,8 @@ class Solution:
             mid_inorder = start
             while inorder[mid_inorder] != postorder[mid_postorder]:
                 mid_inorder += 1
-            left = backtrack(start, mid_inorder, mid_postorder - end + mid_inorder)
-            right = backtrack(mid_inorder + 1, end, mid_postorder - 1)
-            return TreeNode(postorder[mid_postorder], left, right)
+            res.left = backtrack(start, mid_inorder, mid_postorder - end + mid_inorder)
+            res.right = backtrack(mid_inorder + 1, end, mid_postorder - 1)
+            return res
 
         return backtrack(0, len(inorder), len(inorder) - 1)
