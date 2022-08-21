@@ -17,6 +17,26 @@ class TreeNode:
 
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        global left_min
+        left_min = None
+
+        def traverse(node):
+            global left_min
+            if not node:
+                return True
+            if not traverse(node.left):
+                return False
+            if left_min is None:
+                left_min = node.val
+            elif left_min >= node.val:
+                return False
+            else:
+                left_min = node.val
+            return traverse(node.right)
+
+        return traverse(root)
+
+    def _isValidBST(self, root: Optional[TreeNode]) -> bool:
         def traverse(root, res):
             if not root:
                 return
@@ -31,7 +51,7 @@ class Solution:
                 return False
         return True
 
-    def _isValidBST(self, root: Optional[TreeNode]) -> bool:
+    def __isValidBST(self, root: Optional[TreeNode]) -> bool:
         stack = []
         curr = root
         prev = float('-inf')
