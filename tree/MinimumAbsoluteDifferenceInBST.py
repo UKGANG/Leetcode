@@ -23,13 +23,13 @@ class Solution:
                 return
             traverse(root.left)
             if prev is not None:
-                res = min(res, root.val - prev) if res else root.val - prev
+                res = min(res, root.val - prev)
             prev = root.val
             traverse(root.right)
 
         global prev, res
         prev = None
-        res = None
+        res = float('inf')
         traverse(root)
 
         return res
