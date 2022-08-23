@@ -2,7 +2,10 @@
 669. Trim a Binary Search Tree
 https://leetcode.com/problems/trim-a-binary-search-tree/
 '''
-from typing import Optional
+import collections
+from typing import List, Optional, NoReturn
+
+from test_tool import assert_value
 
 
 # Definition for a binary tree node.
@@ -13,7 +16,7 @@ class TreeNode:
         self.right = right
 
 
-class Solution
+class Solution:
     def trimBST(self, root: Optional[TreeNode], low: int, high: int) -> Optional[TreeNode]:
         while root:
             if root.val < low:
