@@ -14,7 +14,7 @@ class Solution:
             nonlocal res, combo
             if not k:
                 nonlocal res
-                res.append(combo.copy())
+                res.append(combo[:])
                 return
             for i in range(l, r + 1):
                 if r + 1 - i < k:
