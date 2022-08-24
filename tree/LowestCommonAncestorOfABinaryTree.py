@@ -29,7 +29,6 @@ class Solution:
 
         return left or right
 
-
     def _lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         path_p = self.findPath(root, p)
         path_q = self.findPath(root, q)
