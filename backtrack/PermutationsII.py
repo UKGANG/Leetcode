@@ -8,10 +8,29 @@ from test_tool import assert_value
 
 
 class Solution:
-
-
-
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        def backtrack():
+            if len(combo) == len(nums):
+                res.append(combo[:])
+                return
+            seen_curr = set()
+            for i in range(len(nums)):
+                if seen[i]:
+                    continue
+                if nums[i] in seen_curr:
+                    continue
+                seen_curr.add(nums[i])
+                seen[i] = True
+                combo.append(nums[i])
+                backtrack()
+                combo.pop()
+                seen[i] = False
+        nums = sorted(nums)
+        res, combo, seen = [], [], [False] * len(nums)
+        backtrack()
+        return res
+
+    def _permuteUnique(self, nums: List[int]) -> List[List[int]]:
         if len(nums) < 2:
             return [nums]
 
@@ -23,7 +42,7 @@ class Solution:
         num = nums[0]
 
         res = []
-        ps = self.permuteUnique(nums[1:])
+        ps = self._permuteUnique(nums[1:])
         for p in ps:
             for i in range(len(nums)):
                 res.append(p[:i] + [num] + p[i:])
