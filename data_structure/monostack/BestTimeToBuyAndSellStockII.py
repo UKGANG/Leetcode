@@ -9,6 +9,15 @@ from test_tool import assert_value
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
+        dp = [0] * len(prices)
+        for i in range(1, len(prices)):
+            dp[i] = dp[i - 1]
+            profit = prices[i] - prices[i - 1]
+            dp[i] += max(profit, 0)
+
+        return dp[-1]
+
+    def _monostack_maxProfit(self, prices: List[int]) -> int:
         stack = []
         res = 0
         for p in prices:
