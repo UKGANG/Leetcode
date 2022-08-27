@@ -26,3 +26,19 @@ class Solution:
                 prev_diff = curr_diff
 
         return res
+
+    def _wiggleMaxLength(self, nums: List[int]) -> int:
+        dp_peek = [1] * len(nums)
+        dp_lull = [1] * len(nums)
+        for i in range(1, len(nums)):
+            if nums[i - 1] < nums[i]:
+                dp_peek[i] = dp_lull[i - 1] + 1
+                dp_lull[i] = dp_lull[i - 1]
+            elif nums[i - 1] > nums[i]:
+                dp_lull[i] = dp_peek[i - 1] + 1
+                dp_peek[i] = dp_peek[i - 1]
+            else:
+                dp_peek[i] = dp_peek[i - 1]
+                dp_lull[i] = dp_lull[i - 1]
+
+        return max(dp_peek[-1], dp_lull[-1])
