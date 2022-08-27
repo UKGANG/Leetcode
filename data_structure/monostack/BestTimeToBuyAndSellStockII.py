@@ -19,6 +19,16 @@ class Solution:
             stack.append(p)
         return res
 
+    def _greddy_maxProfit(self, prices: List[int]) -> int:
+        res = 0
+        for i in range(1, len(prices)):
+            profit = prices[i] - prices[i - 1]
+            if profit < 0:
+                continue
+            res += profit
+
+        return res
+
     def _maxProfit(self, prices: List[int]) -> int:
         diff = [prices[i] - prices[i - 1] for i in range(1, len(prices))]
         diff = [d for d in diff if d > 0]
