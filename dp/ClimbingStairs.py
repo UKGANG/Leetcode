@@ -7,6 +7,7 @@ from typing import List, Final, Optional
 
 from test_tool import assert_value
 
+
 class Solution:
     def climbStairs(self, n: int) -> int:
         if n < 3:
@@ -20,6 +21,7 @@ class Solution:
     def _climbStairs(self, n: int) -> int:
         if n < 3:
             return n
+
         dp_1, dp_2 = 2, 1
         for i in range(3, n + 1):
             res = dp_1 + dp_2
