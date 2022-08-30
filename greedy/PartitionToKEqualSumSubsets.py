@@ -61,5 +61,5 @@ class Solution:
 
 
 assert_value(True, Solution().canPartitionKSubsets, nums=[4, 4, 4, 6, 1, 2, 2, 9, 4, 6], k=3)
-# assert_value(True, Solution().canPartitionKSubsets, nums=[4, 3, 2, 3, 5, 2, 1], k=4)
-# assert_value(False, Solution().canPartitionKSubsets, nums=[1, 2, 3, 4], k=3)
+assert_value(True, Solution().canPartitionKSubsets, nums=[4, 3, 2, 3, 5, 2, 1], k=4)
+assert_value(False, Solution().canPartitionKSubsets, nums=[1, 2, 3, 4], k=3)
