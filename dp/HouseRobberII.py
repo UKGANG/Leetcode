@@ -9,6 +9,25 @@ from test_tool import assert_value
 
 class Solution:
     def rob(self, nums: List[int]) -> int:
+        n = len(nums)
+
+        if n < 3:
+            return max(nums)
+
+        n -= 1
+
+        dp_1 = [0] * n
+        dp_2 = [0] * n
+
+        dp_1[0], dp_1[1] = nums[0], max(nums[0], nums[1])
+        dp_2[0], dp_2[1] = nums[1], max(nums[1], nums[2])
+
+        for i in range(2, n):
+            dp_1[i] = max(dp_1[i - 1], dp_1[i - 2] + nums[i], )
+            dp_2[i] = max(dp_2[i - 1], dp_2[i - 2] + nums[i + 1])
+        return max(dp_1[-1], dp_2[-1])
+
+    def _rob(self, nums: List[int]) -> int:
         if not nums:
             return 0
         if len(nums) == 1:
