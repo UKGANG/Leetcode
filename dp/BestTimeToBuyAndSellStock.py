@@ -17,6 +17,19 @@ class Solution:
             res = max(curr, res)
         return res
 
+    def _2_cache_maxProfit(self, prices: List[int]) -> int:
+        dp_cash = [0] * len(prices)
+        dp_stock = [0] * len(prices)
+
+        dp_cash[0] = 0
+        dp_stock[0] = -prices[0]
+
+        for i in range(1, len(prices)):
+            dp_cash[i] = max(dp_cash[i - 1], dp_stock[i - 1] + prices[i])
+            dp_stock[i] = max(dp_stock[i - 1], -prices[i])
+
+        return dp_cash[-1]
+
     def _maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
 
