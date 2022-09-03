@@ -17,7 +17,20 @@ class Solution:
 
         return dp[-1]
 
-    def _monostack_maxProfit(self, prices: List[int]) -> int:
+    def _dp_maxProfit(self, prices: List[int]) -> int:
+        dp_cash = [0] * len(prices)
+        dp_stock = [0] * len(prices)
+
+        dp_cash[0] = 0
+        dp_stock[0] = -prices[0]
+
+        for i in range(1, len(prices)):
+            dp_cash[i] = max(dp_cash[i - 1], dp_stock[i - 1] + prices[i])
+            dp_stock[i] = max(dp_stock[i - 1], dp_cash[i - 1] - prices[i])
+
+        return dp_cash[-1]
+
+    def _monostack_decrease_maxProfit(self, prices: List[int]) -> int:
         stack = []
         res = 0
         for p in prices:
@@ -26,6 +39,18 @@ class Solution:
                 p_prev = min(p_prev, stack.pop())
             res += p - p_prev
             stack.append(p)
+        return res
+
+    def _monostack_increase_maxProfit(self, prices: List[int]) -> int:
+        stack = []
+        res = 0
+        for sell_price in prices:
+            while stack and stack[-1] > sell_price:
+                stack.pop()
+            if stack:
+                res += sell_price - stack[0]
+                stack.clear()
+            stack.append(sell_price)
         return res
 
     def _greddy_maxProfit(self, prices: List[int]) -> int:
