@@ -18,6 +18,23 @@ class Solution:
         return res
 
     def _maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+
+        if n == 1:
+            return 0
+
+        diff = [prices[i] - prices[i - 1] for i in range(1, len(prices))]
+
+        dp = [0] * len(diff)
+
+        dp[0] = diff[0]
+
+        for i in range(1, len(diff)):
+            dp[i] = max(dp[i - 1] + diff[i], diff[i], 0)
+
+        return max(*dp, 0)
+
+    def __maxProfit(self, prices: List[int]) -> int:
         res = [0] * len(prices)
         for i in range(1, len(prices)):
             diff = prices[i] - prices[i - 1]
