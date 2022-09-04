@@ -31,15 +31,16 @@ class Solution:
 
         return len(dp)
 
-    def lengthOfLIS_DP(self, nums: List[int]) -> int:
-        dp = [0] * len(nums)
+    def _dp_lengthOfLIS(self, nums: List[int]) -> int:
+        n = len(nums)
 
-        for idx in range(len(nums)):
-            dp[idx] = 1
+        dp = [1] * n
 
-            for i in range(idx):
-                if nums[idx] > nums[i]:
-                    dp[idx] = max(dp[idx], dp[i] + 1)
+        for i in range(1, n):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+
         return max(dp)
 
 
