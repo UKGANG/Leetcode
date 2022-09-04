@@ -11,10 +11,46 @@ from test_tool import assert_value
 class Solution:
 
     def maxSubArray(self, nums: List[int]) -> int:
+        n = len(nums)
+
+        dp = [0] * n
+
+        dp[0] = nums[0]
+
+        for i in range(1, n):
+            dp[i] = nums[i] + max(dp[i - 1], 0)
+
+        return max(dp)
+
+    def maxSubArray(self, nums: List[int]) -> int:
         dp = nums
         for i in range(1, len(nums)):
             dp[i] = max(dp[i - 1] + dp[i], dp[i])
         return max(dp)
+
+    def _divide_councer_revised_maxSubArray(self, nums: List[int]) -> int:
+        def get_max(l, r):
+            if l + 1 == r:
+                return nums[l]
+            m = (l + r) >> 1
+            left = get_max(l, m)
+            right = get_max(m, r)
+
+            left_sub = float('-inf')
+            curr = 0
+            for i in range(m - 1, l - 1, -1):
+                curr += nums[i]
+                left_sub = max(left_sub, curr)
+
+            right_sub = float('-inf')
+            curr = 0
+            for i in range(m, r):
+                curr += nums[i]
+                right_sub = max(right_sub, curr)
+
+            return max(left, right, left_sub + right_sub)
+
+        return get_max(0, len(nums))
 
     def _divide_councer_maxSubArray(self, nums: List[int]) -> int:
         def sub_max(i, j):
@@ -45,6 +81,17 @@ class Solution:
             return max(res for res in (max_sub_left, max_sub_right, max_mid) if res is not None)
 
         return sub_max(0, len(nums))
+
+    def _greddy_revised_maxSubArray(self, nums: List[int]) -> int:
+        res = float('-inf')
+        curr = 0
+
+        for num in nums:
+            curr += num
+            res = max(res, curr, num)
+            curr = max(curr, 0)
+
+        return res
 
     def _greddy_maxSubArray(self, nums: List[int]) -> int:
         res = nums[0]
