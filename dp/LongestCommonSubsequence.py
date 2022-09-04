@@ -8,7 +8,26 @@ from test_tool import assert_value
 
 
 class Solution(object):
-    def longestCommonSubsequence(self, text1: str, text2: str) -> str:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        m, n = len(text1), len(text2)
+
+        dp = [
+            [0] * (n + 1)
+            for _ in range(m + 1)
+        ]
+
+        text1 = f' {text1}'
+        text2 = f' {text2}'
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if text1[i] == text2[j]:
+                    dp[i][j] = 1 + dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = max(dp[i][j - 1], dp[i - 1][j])
+
+        return dp[-1][-1]
+
+    def _longestCommonSubsequence(self, text1: str, text2: str) -> str:
         if len(text1) == 0 or len(text2) == 0:
             return ''
         c = []
