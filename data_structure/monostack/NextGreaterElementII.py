@@ -9,6 +9,19 @@ from test_tool import assert_value
 
 class Solution:
     def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        res = [-1] * len(nums)
+
+        stack = []
+
+        for curr in range(len(nums) << 1):
+            curr %= len(nums)
+            while stack and nums[stack[-1]] < nums[curr]:
+                prev = stack.pop()
+                res[prev] = nums[curr]
+            stack.append(curr)
+        return res
+
+    def _nextGreaterElements(self, nums: List[int]) -> List[int]:
         stack = []
         res = [-1] * len(nums)
         for i in range(len(nums) * 2):
