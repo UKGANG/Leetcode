@@ -10,6 +10,18 @@ from test_tool import assert_value
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
         res = [0] * len(temperatures)
+
+        stack = []
+        for curr in range(len(temperatures)):
+            while stack and temperatures[stack[-1]] < temperatures[curr]:
+                prev = stack.pop()
+                res[prev] = curr - prev
+            stack.append(curr)
+
+        return res
+
+    def _reverserd_decreasing_dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        res = [0] * len(temperatures)
         s = []
         for idx in range(len(res) - 1, -1, -1):
             while s and temperatures[s[-1]] <= temperatures[idx]:
