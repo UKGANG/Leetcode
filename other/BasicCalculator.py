@@ -72,7 +72,31 @@ class Solution:
             curr -= int(num) if num else 0
         return curr
 
+    def calculate_str(self, s: str) -> str:
+        s = s.replace(" ", "")
+        for opt in "+-()":
+            s = s.replace(opt, f' {opt} ')
+        stack = [["+"]]
+        leading_sign = 1
+        sign = 1
+        for token in s.split():
+            if token == ')':
+                sign = 1 if stack[-1][0] == '+' else -1
+                nested_exp = stack.pop()
+                leading_sign = 1 if stack[-1][0] == '+' else -1
+                stack[-1].append('+'.join(nested_exp[1:]).replace("+-", '-'))
+            elif token == '(':
+                leading_sign = sign
+                stack.append(['+' if leading_sign == 1 else '-'])
+            elif token in '+-':
+                if token == '-':
+                    sign = -1 * leading_sign
+            else:
+                stack[-1].append(f'{sign * int(token)}')
 
-assert_value(2, Solution().calculate, s="1 + 1")
-assert_value(3, Solution().calculate, s=" 2-1 + 2 ")
-assert_value(23, Solution().calculate, s="(1+(4+5+2)-3)+(6+8)")
+        return '+'.join(stack[0][1:]).replace("+-", '-')
+
+
+# assert_value(2, Solution().calculate, s="1 + 1")
+# assert_value(3, Solution().calculate, s=" 2-1 + 2 ")
+assert_value(23, Solution().calculate, s="((1+(4+5+2)-3 - (1+1))+(6+8))")
