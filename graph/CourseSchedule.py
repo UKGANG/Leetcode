@@ -30,5 +30,3 @@ class Solution:
                         available_courses.append(post)
 
         return not numCourses
-
-
