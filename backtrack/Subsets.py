@@ -10,6 +10,14 @@ from test_tool import assert_value
 
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
+        res = [[]]
+
+        for num in nums:
+            for i in range(len(res)):
+                res.append(res[i] + [num])
+        return res
+
+    def _subsets(self, nums: List[int]) -> List[List[int]]:
         def backtrack(start, cnt):
             if not cnt:
                 res.append(combo[:])
