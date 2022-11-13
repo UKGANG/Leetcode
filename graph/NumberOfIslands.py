@@ -85,7 +85,7 @@ class Solution:
         m, n = len(grid), len(grid[0])
         curr_queue = [(i, j)]
         offset = itertools.product([-1, 0, 1], [-1, 0, 1])
-        offset = [(di, dj) for di, dj in offset if di * dj == 0 and di != dj]
+        offset = [(di, dj) for di, dj in offset if bool(di) != bool(dj)]
         while curr_queue:
             i, j = curr_queue.pop()
             accessed[i][j] = True
