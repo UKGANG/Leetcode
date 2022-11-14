@@ -2,6 +2,7 @@
 317. Shortest Distance from All Buildings
 https://leetcode.com/problems/shortest-distance-from-all-buildings/
 '''
+import collections
 import itertools
 from typing import List
 
@@ -10,6 +11,58 @@ from test_tool import assert_value
 
 class Solution:
     def shortestDistance(self, grid: List[List[int]]) -> int:
+        def bfs(x, y):
+            nonlocal m, n
+            visited = set()
+            connected_building_cnt = 0
+            queue = collections.deque([(x, y)])
+
+            dist_cnt = -1
+            while queue:
+                dist_cnt += 1
+                size = len(queue)
+                for _ in range(size):
+                    x, y = queue.popleft()
+                    if (x, y) in visited:
+                        continue
+                    visited.add((x, y))
+                    if grid[x][y] == 2:
+                        continue
+                    connected_building_cnt_matrix[x][y] += 1
+                    dist_matrix[x][y] += dist_cnt
+                    if grid[x][y] == 1:
+                        connected_building_cnt += 1
+                    if grid[x][y] == 1 and dist_cnt > 0:
+                        continue
+                    for dx, dy in offset:
+                        _x, _y = x + dx, y + dy
+                        if not 0 <= _x < m or not 0 <= _y < n:
+                            continue
+                        queue.append((_x, _y))
+            return connected_building_cnt
+
+        m, n = len(grid), len(grid[0])
+        dist_matrix = [[0] * n for _ in range(m)]
+        connected_building_cnt_matrix = [[0] * n for _ in range(m)]
+        total_building_cnt = sum(1 for x, y in itertools.product(range(m), range(n)) if grid[x][y] == 1)
+
+        offset = [(x, y) for x, y in itertools.product(range(-1, 2), range(-1, 2)) if x != y and x * y == 0]
+
+        for x, y in itertools.product(range(m), range(n)):
+            if grid[x][y] == 1:
+                connected_building_cnt = bfs(x, y)
+                if connected_building_cnt != total_building_cnt:
+                    return -1
+
+        res = float('inf')
+        for x, y in itertools.product(range(m), range(n)):
+            if connected_building_cnt_matrix[x][y] == total_building_cnt and grid[x][y] == 0:
+                res = min(res, dist_matrix[x][y])
+
+        return -1 if res == float('inf') else res
+
+
+    def _shortestDistance(self, grid: List[List[int]]) -> int:
         def bfs(x, y):
             m, n = len(grid), len(grid[0])
             visited = set()
