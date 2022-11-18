@@ -11,6 +11,27 @@ from test_tool import assert_value
 
 class Solution:
     def numMatchingSubseq(self, s: str, words: List[str]) -> int:
+        cache = collections.defaultdict(list)
+        for idx, c in enumerate(s):
+            cache[c].append(idx)
+
+        res = 0
+        for word in words:
+            idx_s = 0
+            res += 1
+            for c in word:
+                if c not in cache:
+                    res -= 1
+                    break
+                idx_cache = bisect.bisect_left(cache[c], idx_s)
+                if idx_cache == len(cache[c]):
+                    res -= 1
+                    break
+                idx_s = cache[c][idx_cache] + 1
+
+        return res
+
+    def numMatchingSubseq(self, s: str, words: List[str]) -> int:
         dp = collections.defaultdict(list)
         for idx, c in enumerate(s):
             dp[c].append(idx)
