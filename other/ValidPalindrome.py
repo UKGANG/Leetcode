@@ -10,12 +10,17 @@ from test_tool import assert_value
 class Solution:
     def isPalindrome(self, s: str) -> bool:
         s = ''.join(c.lower() for c in s if c.isalpha() or c.isnumeric())
+        m_revierse = len(s) >> 1
+        return s[:len(s) >> 1] == s[~0:~m_revierse: -1]
+
+    def _isPalindrome(self, s: str) -> bool:
+        s = ''.join(c.lower() for c in s if c.isalpha() or c.isnumeric())
         m_revierse = (len(s) >> 1) - 1
         if len(s) & 1:
             m_revierse += 1
         return s[:len(s) >> 1] == s[-1:m_revierse: -1]
 
-    def _isPalindrome(self, s: str) -> bool:
+    def __isPalindrome(self, s: str) -> bool:
         s = ''.join(c.lower() for c in s if c.isalpha() or c.isnumeric())
         for i in range(len(s) >> 1):
             if s[i] != s[len(s) - 1 - i]:
