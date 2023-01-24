@@ -2,12 +2,24 @@
 1481. Least Number of Unique Integers after K Removals
 https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/
 '''
+import collections
+import operator
 from typing import List
 
 from test_tool import assert_value
 
 
 class Solution:
+    def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
+        counter = collections.Counter(arr)
+        res = 0
+        for _, cnt in sorted(counter.items(), key=operator.itemgetter(1)):
+            if cnt > k:
+                res += 1
+            k = max(0, k - cnt)
+
+        return res
+
     def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
         cache = {}
         for e in arr:
