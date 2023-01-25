@@ -14,9 +14,29 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        nums = nums.copy()
-        if len(nums) < 2:
-            return nums
+        for i in range(len(nums) - 1, 0, -1):
+            if nums[i - 1] >= nums[i]:
+                continue
+            head = i - 1
+            tail = i
+            for j in range(tail, len(nums)):
+                if nums[j] > nums[head]:
+                    tail = j
+                else:
+                    break
+            nums[head], nums[tail] = nums[tail], nums[head]
+
+            head = i
+            for j in range((len(nums) - i) >> 1):
+                nums[head + j], nums[len(nums) - 1 - j] = nums[len(nums) - 1 - j], nums[head + j]
+            break
+        else:
+            nums.reverse()
+
+    def _nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
         for i in range(len(nums) - 1, 0, -1):
             if nums[i - 1] >= nums[i]:
                 continue
@@ -24,7 +44,7 @@ class Solution:
             min_j = nums[head]
             tail = head + 1
             for i in range(head + 1, len(nums)):
-                if nums[tail] >= nums[i] > min_j:
+                if nums[i] > min_j:
                     tail = i
             nums[head], nums[tail] = nums[tail], nums[head]
 
@@ -33,7 +53,6 @@ class Solution:
             break
         else:
             nums.reverse()
-        return nums
 
 
 assert_value([1, 3, 2], Solution().nextPermutation, nums=[1, 2, 3])
