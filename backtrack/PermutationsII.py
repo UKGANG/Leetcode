@@ -25,7 +25,6 @@ class Solution:
                 backtrack()
                 combo.pop()
                 seen[i] = False
-        nums = sorted(nums)
         res, combo, seen = [], [], [False] * len(nums)
         backtrack()
         return res
