@@ -10,8 +10,7 @@ from test_tool import assert_value
 class Solution:
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
         def backtrack(start, residual):
-            nonlocal res, combo
-            if not residual:
+            if combo and not residual:
                 res.append(combo[:])
                 return
             for i in range(start, len(candidates)):
@@ -21,12 +20,10 @@ class Solution:
                 if residual < num:
                     break
                 combo.append(num)
-                if combo == [1, 5, 2]:
-                    print(i, candidates)
                 backtrack(i + 1, residual - num)
                 combo.pop()
 
-        candidates = sorted(candidates)
         res, combo = [], []
+        candidates.sort()
         backtrack(0, target)
         return res
