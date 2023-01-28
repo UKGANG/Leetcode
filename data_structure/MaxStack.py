@@ -2,45 +2,44 @@
 716. Max Stack
 https://leetcode.com/problems/max-stack/
 '''
-from typing import List
-
-from test_tool import assert_value
+import bisect
+import uuid
+from collections import OrderedDict
 
 
 class MaxStack:
     def __init__(self):
-        self._stack = []
-        self._max_stack = []
+        self._stack = OrderedDict()
+        self._sorted_list = []
+        self._sorted_list_id = []
 
-    def push(self, x: int):
-        self._stack.append(x)
-        if not self._max_stack or self._max_stack[-1] <= x:
-            self._max_stack.append(x)
+    def push(self, x: int) -> None:
+        key = str(uuid.uuid4())
+        self._stack[key] = x
+        idx = bisect.bisect_right(self._sorted_list, x)
 
-    def pop(self):
-        x = self._stack.pop()
-        if x == self._max_stack[-1]:
-            self._max_stack.pop()
+        self._sorted_list.insert(idx, x)
+        self._sorted_list_id.insert(idx, key)
+
+    def pop(self) -> int:
+        key, x = self._stack.popitem(last=True)
+        idx = bisect.bisect_right(self._sorted_list, x)
+        if idx == len(self._sorted_list) or x != self._sorted_list[idx]:
+            idx -= 1
+        del self._sorted_list[idx]
+        del self._sorted_list_id[idx]
         return x
 
-    def top(self):
-        return self._stack[-1]
+    def top(self) -> int:
+        return next(reversed(self._stack.items()))[1]
 
-    def peekMax(self):
-        return self._max_stack[-1]
+    def peekMax(self) -> int:
+        return self._sorted_list[-1]
 
-    def popMax(self):
-        x = self._max_stack.pop()
-        tmp_stack = []
-        while True:
-            y = self._stack.pop()
-            if x == y:
-                break
-            tmp_stack.append(y)
-
-        while tmp_stack:
-            self.push(tmp_stack.pop())
-
+    def popMax(self) -> int:
+        x = self._sorted_list.pop()
+        key = self._sorted_list_id.pop()
+        del self._stack[key]
         return x
 
 
