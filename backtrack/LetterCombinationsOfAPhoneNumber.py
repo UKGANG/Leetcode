@@ -21,6 +21,21 @@ class Solution:
         }
 
     def letterCombinations(self, digits: str) -> List[str]:
+        def backtrack(idx):
+            if curr and len(curr) == len(digits):
+                res.append(''.join(curr))
+                return
+            for i in range(idx, len(digits)):
+                for c in self._mapping[digits[i]]:
+                    curr.append(c)
+                    backtrack(i + 1)
+                    curr.pop()
+
+        res, curr = [], []
+        backtrack(0)
+        return res
+
+    def _letterCombinations(self, digits: str) -> List[str]:
         def backtrack(l, r, n):
             nonlocal res, combo
             if not n and combo:
@@ -38,7 +53,7 @@ class Solution:
         backtrack(0, len(digits) - 1, len(digits))
         return [''.join(combo) for combo in res]
 
-    def _letterCombinations(self, digits: str) -> List[str]:
+    def __letterCombinations(self, digits: str) -> List[str]:
         if not digits:
             return []
         res = ['']
