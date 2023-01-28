@@ -10,6 +10,22 @@ from test_tool import assert_value
 
 class Solution:
     def combine(self, n: int, k: int) -> List[List[int]]:
+        def backtrack(i):
+            if len(curr) == k:
+                res.append(curr[:])
+                return
+            for j in range(i, n):
+                curr.append(j + 1)
+                backtrack(j + 1)
+                curr.pop()
+
+        res = []
+        curr = []
+        backtrack(0)
+
+        return res
+
+    def _combine(self, n: int, k: int) -> List[List[int]]:
         def backtrack(l, r, k):
             nonlocal res, combo
             if not k:
