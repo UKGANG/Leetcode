@@ -15,6 +15,8 @@ class Solution:
                 res.append(curr[:])
                 return
             for j in range(i, n):
+                if n - j + len(curr) < k:
+                    break
                 curr.append(j + 1)
                 backtrack(j + 1)
                 curr.pop()
