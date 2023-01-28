@@ -9,20 +9,18 @@ from test_tool import assert_value
 
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        def backtrack(start, n):
-            nonlocal candidates, res, combo
-            if not n and combo:
+        def backtrack(start, target):
+            if not target and combo:
                 res.append(combo[:])
                 return
             for i in range(start, len(candidates)):
-                num = candidates[i]
-                if n < num:
+                if target < candidates[i]:
                     break
-                combo.append(num)
-                backtrack(i, n - num)
+                combo.append(candidates[i])
+                backtrack(i, target - candidates[i])
                 combo.pop()
 
-        candidates = sorted(candidates)
+        candidates.sort()
         res, combo = [], []
         backtrack(0, target)
         return res
