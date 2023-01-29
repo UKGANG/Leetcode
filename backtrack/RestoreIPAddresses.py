@@ -10,6 +10,32 @@ from test_tool import assert_value
 
 class Solution:
     def restoreIpAddresses(self, s: str) -> List[str]:
+        def backtrack(start):
+            if start == len(s) and len(curr) == 4:
+                res.append('.'.join(curr))
+                return
+            if len(curr) == 3 and len(s) - start > 3:
+                return
+            if len(curr) == 2 and len(s) - start > 6:
+                return
+            if len(curr) == 1 and len(s) - start > 9:
+                return
+            for end in range(start, min(len(s), start + 3)):
+                if not s[start: end + 1].isdigit():
+                    continue
+                if end - start > 0 and s[start] == '0':
+                    break
+                if not 0 <= int(s[start: end + 1]) <= 255:
+                    continue
+                curr.append(s[start: end + 1])
+                backtrack(end + 1)
+                curr.pop()
+
+        res, curr = [], []
+        backtrack(0)
+        return res
+
+    def _restoreIpAddresses(self, s: str) -> List[str]:
         def backtrack(start, section_cnt):
             if not section_cnt:
                 if start == len(s):
