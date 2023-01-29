@@ -15,7 +15,6 @@ class Solution:
                 return True
 
             arrival_list = graph[depature]
-            arrival_list.sort()
             size = len(arrival_list)
             for _ in range(size):
                 arrival = arrival_list.pop(0)
@@ -28,6 +27,9 @@ class Solution:
         graph = collections.defaultdict(list)
         for depature, arrival in tickets:
             graph[depature].append(arrival)
+
+        for depature in graph.keys():
+            graph[depature] = sorted(graph[depature])
         combo = ['JFK']
         backtrack('JFK')
         return combo
