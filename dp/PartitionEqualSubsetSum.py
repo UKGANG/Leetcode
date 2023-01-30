@@ -10,6 +10,21 @@ from test_tool import assert_value
 
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
+        target = sum(nums)
+        if target & 1 or len(nums) == 1 or max(nums) > target >> 1:
+            return False
+        target >>= 1
+        dp = [False] * (target + 1)
+        dp[0] = True
+        for num in nums:
+            for n in range(len(dp) - 1, num - 1, -1):
+                dp[n] = dp[n] or dp[n - num]
+            if dp[-1]:
+                return True
+
+        return False
+
+    def _canPartition(self, nums: List[int]) -> bool:
         total = sum(nums)
         if total & 1 or len(nums) == 1 or max(nums) > total >> 1:
             return False
