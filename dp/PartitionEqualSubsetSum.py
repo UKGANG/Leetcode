@@ -17,7 +17,7 @@ class Solution:
         dp = [False] * (target + 1)
         dp[0] = True
         for num in nums:
-            for n in range(len(dp) - 1, num - 1, -1):
+            for n in range(target, num - 1, -1):
                 dp[n] = dp[n] or dp[n - num]
             if dp[-1]:
                 return True
