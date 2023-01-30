@@ -9,6 +9,18 @@ from test_tool import assert_value
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0
+
+        coins.sort()
+        for sub_total in range(amount + 1):
+            for coin in coins:
+                if coin > sub_total:
+                    break
+                dp[sub_total] = min(dp[sub_total], dp[sub_total - coin] + 1)
+        return -1 if dp[-1] == float('inf') else dp[sub_total]
+
+    def coinChange(self, coins: List[int], amount: int) -> int:
         if not amount:
             return 0
         m, n = len(coins), amount
