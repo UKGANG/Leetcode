@@ -11,17 +11,15 @@ class Solution:
     def maxProfit(self, prices: List[int], fee: int) -> int:
         n = len(prices)
 
-        dp_hold_stock = [0] * n
-        dp_hold_cache = [0] * n
+        dp_buyable = [0] * n
+        dp_sellable = [0] * n
 
-        dp_hold_stock[0] = -prices[0]
-        dp_hold_cache[0] = 0
+        dp_sellable[0] = -prices[0] - fee
 
         for i in range(1, n):
-            dp_hold_stock[i] = max(dp_hold_stock[i - 1], dp_hold_cache[i - 1] - prices[i])
-            dp_hold_cache[i] = max(dp_hold_cache[i - 1], dp_hold_stock[i - 1] + prices[i] - fee)
-
-        return dp_hold_cache[-1]
+            dp_buyable[i] = max(dp_buyable[i - 1], dp_sellable[i - 1] + prices[i])
+            dp_sellable[i] = max(dp_sellable[i - 1], dp_buyable[i - 1] - prices[i] - fee)
+        return dp_buyable[-1]
 
     def _greedy_maxProfit(self, prices: List[int], fee: int) -> int:
         if len(prices) < 2:
