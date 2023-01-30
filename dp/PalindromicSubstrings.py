@@ -9,6 +9,36 @@ from test_tool import assert_value
 
 class Solution:
     def countSubstrings(self, s: str) -> int:
+        res = 0
+        for i in range(len(s)):
+            res += self.count_palindrome(s, i, i)
+            res += self.count_palindrome(s, i, i + 1)
+        return res
+
+    def count_palindrome(self, s, x, y) -> int:
+        res = 0
+        while x >= 0 and y < len(s) and s[x] == s[y]:
+            res += 1
+            x -= 1
+            y += 1
+        return res
+
+    def _dp_countSubstrings(self, s: str) -> int:
+        n = len(s)
+
+        dp = [
+            [False] * n for _ in range(n)
+        ]
+
+        for x in range(n - 1, -1, -1):
+            for y in range(x, n):
+                if s[x] != s[y]:
+                    continue
+                if x == y or x + 1 == y or dp[x + 1][y - 1]:
+                    dp[x][y] = True
+        return sum(sum(dp, []))
+
+    def _countSubstrings(self, s: str) -> int:
         n = len(s)
 
         res = 0
