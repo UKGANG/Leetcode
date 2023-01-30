@@ -11,6 +11,18 @@ from test_tool import assert_value
 
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        n = len(s)
+        dp = [False] * (n + 1)
+        dp[0] = True
+
+        for idx in range(n + 1):
+            for word in wordDict:
+                if idx < len(word):
+                    continue
+                dp[idx] = dp[idx] or (dp[idx - len(word)] and word == s[idx - len(word): idx])
+        return dp[-1]
+
+    def _wordBreak(self, s: str, wordDict: List[str]) -> bool:
         @functools.lru_cache()
         def backtrack(idx):
             if idx == len(s):
@@ -26,7 +38,7 @@ class Solution:
         wordDict = [(word, len(word)) for word in wordDict]
         return backtrack(0)
 
-    def _wordBreak(self, s: str, wordDict: List[str]) -> bool:
+    def __wordBreak(self, s: str, wordDict: List[str]) -> bool:
         wordDict = [(word, len(word)) for word in wordDict]
 
         curr_level = collections.deque([0])
@@ -46,7 +58,7 @@ class Solution:
                     curr_level.append(curr + length)
         return False
 
-    def __wordBreak(self, s: str, wordDict: List[str]) -> bool:
+    def ___wordBreak(self, s: str, wordDict: List[str]) -> bool:
         wordDict = [(word, len(word)) for word in wordDict]
 
         m, n = len(wordDict), len(s)
