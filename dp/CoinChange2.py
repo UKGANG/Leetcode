@@ -10,6 +10,15 @@ from test_tool import assert_value
 
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
+        dp = [0] * (amount + 1)
+        dp[0] = 1
+
+        for coin in coins:
+            for sub_total in range(coin, amount + 1):
+                dp[sub_total] += dp[sub_total - coin]
+        return dp[-1]
+
+    def _change(self, amount: int, coins: List[int]) -> int:
         m, n = len(coins), amount
 
         dp = [0] * (n + 1)
@@ -21,7 +30,7 @@ class Solution:
                 dp[j] += dp[j - coins[i]]
         return dp[-1]
 
-    def _change(self, amount: int, coins: List[int]) -> int:
+    def __change(self, amount: int, coins: List[int]) -> int:
         m, n = len(coins), amount
 
         dp = [
