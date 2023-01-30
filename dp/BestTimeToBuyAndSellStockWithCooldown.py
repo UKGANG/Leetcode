@@ -11,6 +11,22 @@ class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
 
+        dp_buyable = [0] * n
+        dp_frozen = [0] * n
+        dp_sellable = [0] * n
+
+        dp_sellable[0] = -prices[0]
+
+        for i in range(1, n):
+            dp_buyable[i] = max(dp_buyable[i - 1], dp_frozen[i - 1])
+            dp_frozen[i] = dp_sellable[i - 1] + prices[i]
+            dp_sellable[i] = max(dp_sellable[i - 1], dp_buyable[i - 1] - prices[i])
+
+        return max(dp_buyable[-1], dp_frozen[-1])
+
+    def _maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+
         if n < 2:
             return 0
 
@@ -25,7 +41,7 @@ class Solution:
             dp_buy[i] = max(dp_buy[i - 1], (dp_sell[i - 2] if i > 1 else 0) - prices[i])
         return dp_sell[-1]
 
-    def _maxProfit(self, prices: List[int]) -> int:
+    def __maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
 
         if n < 2:
@@ -49,7 +65,7 @@ class Solution:
 
         return max(dp_sold[-1], dp_frozen[-1], dp_buyable[-1])
 
-    def __maxProfit(self, prices: List[int]) -> int:
+    def ___maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
 
         if n < 2:
@@ -73,7 +89,7 @@ class Solution:
             dp_buy[i] = max(dp_buy[i - 1], dp_frozen[i - 1] - prices[i], max(dp_sell[:i - 1]) - prices[i])
         return dp_sell[-1]
 
-    def ___maxProfit(self, prices: List[int]) -> int:
+    def ____maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
 
         if n < 2:
