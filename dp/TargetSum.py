@@ -11,6 +11,20 @@ from test_tool import assert_value
 
 class Solution:
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        total = sum(nums)
+        if total < target or (total - target) & 1:
+            return 0
+        target = (total - target) >> 1
+
+        dp = [0] * (target + 1)
+        dp[0] = 1
+
+        for num in nums:
+            for sub_total in range(target, num - 1, -1):
+                dp[sub_total] += dp[sub_total - num]
+        return dp[-1]
+
+    def _findTargetSumWays(self, nums: List[int], target: int) -> int:
         zeros = sum(1 for num in nums if not num)
         nums = [num for num in nums if num]
         m, n = len(nums), sum(nums)
@@ -35,7 +49,7 @@ class Solution:
 
         return dp[-1][(target + n) >> 1] * 2 ** zeros
 
-    def _findTargetSumWays(self, nums: List[int], target: int) -> int:
+    def __findTargetSumWays(self, nums: List[int], target: int) -> int:
         m, n = len(nums), sum(nums)
         dp = {}
         if nums[0]:
@@ -52,7 +66,7 @@ class Solution:
 
         return dp.get(target, 0)
 
-    def __findTargetSumWays(self, nums: List[int], target: int) -> int:
+    def ___findTargetSumWays(self, nums: List[int], target: int) -> int:
         if not nums:
             return 0
         dic = {nums[0]: 1, -nums[0]: 1} if nums[0] != 0 else {0: 2}
