@@ -10,6 +10,24 @@ from test_tool import assert_value
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
+        dp_1_buy = [0] * n
+        dp_1_sell = [0] * n
+        dp_2_buy = [0] * n
+        dp_2_sell = [0] * n
+
+        dp_1_buy[0] = - prices[0]
+        dp_2_buy[0] = - prices[0]
+
+        for i in range(1, len(prices)):
+            dp_1_buy[i] = max(dp_1_buy[i - 1], -prices[i])
+            dp_1_sell[i] = max(dp_1_sell[i - 1], dp_1_buy[i - 1] + prices[i])
+            dp_2_buy[i] = max(dp_2_buy[i - 1], dp_1_sell[i - 1] - prices[i])
+            dp_2_sell[i] = max(dp_2_sell[i - 1], dp_2_buy[i - 1] + prices[i])
+
+        return max(dp_1_sell[-1], dp_2_sell[-1])
+
+    def _maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
 
         dp_prev = [0] * 4
         dp_prev[0] = -prices[0]
@@ -26,7 +44,7 @@ class Solution:
             dp_prev = dp_curr
         return dp_curr[-1]
 
-    def _maxProfit(self, prices: List[int]) -> int:
+    def __maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
 
         dp = [
@@ -45,7 +63,7 @@ class Solution:
             dp[i][3] = max(dp[i - 1][3], dp[i - 1][2] + prices[i])
         return dp[-1][-1]
 
-    def __maxProfit(self, prices: List[int]) -> int:
+    def ___maxProfit(self, prices: List[int]) -> int:
         res = [0] * len(prices)
 
         curr_min = prices[0]
