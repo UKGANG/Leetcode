@@ -9,6 +9,16 @@ from test_tool import assert_value
 
 class Solution:
     def findLengthOfLCIS(self, nums: List[int]) -> int:
+        left, right = 0, 1
+        res = 1
+        while right < len(nums):
+            while right < len(nums) and nums[right - 1] < nums[right]:
+                right += 1
+            res = max(res, right - left)
+            left, right = right, right + 1
+        return res
+
+    def _findLengthOfLCIS(self, nums: List[int]) -> int:
         n = len(nums)
 
         dp = [1] * n
