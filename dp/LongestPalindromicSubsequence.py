@@ -13,6 +13,27 @@ class Solution:
         n = len(s)
 
         dp = [
+            [0] * n for _ in range(n)
+        ]
+
+        for x in range(n - 1, -1, -1):
+            for y in range(x, n):
+                if s[x] == s[y]:
+                    if x == y:
+                        dp[x][y] = 1
+                    elif x + 1 == y:
+                        dp[x][y] = 2
+                    elif dp[x + 1][y - 1]:
+                        dp[x][y] = dp[x + 1][y - 1] + 2
+                else:
+                    dp[x][y] = max(dp[x + 1][y], dp[x][y - 1])
+
+        return dp[0][-1]
+
+    def _longestPalindromeSubseq(self, s: str) -> int:
+        n = len(s)
+
+        dp = [
             [0] * n
             for _ in range(n)
         ]
