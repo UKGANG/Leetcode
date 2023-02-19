@@ -3,7 +3,7 @@
 https://leetcode.com/problems/word-search-ii/
 '''
 import collections
-from itertools import product
+import itertools
 from typing import List
 
 from test_tool import assert_value
@@ -17,47 +17,48 @@ class TrieNode:
 
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
-        res = []
-        coordination = list(product(range(len(board)), range(len(board[0]))))
+        def backtrack(x, y, node):
+            if node.is_word:
+                node.is_word = False
+                res.append(''.join(curr))
+
+            nonlocal m, n
+            prev_c = board[x][y]
+            board[x][y] = None
+
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                _x, _y = x + dx, y + dy
+                if not (0 <= _x < m and 0 <= _y < n):
+                    continue
+                if not board[_x][_y]:
+                    continue
+                if board[_x][_y] not in node.children:
+                    continue
+                c = board[_x][_y]
+                curr.append(c)
+                backtrack(_x, _y, node.children[c])
+                curr.pop()
+
+            board[x][y] = prev_c
 
         root = TrieNode()
         for word in words:
-            curr = root
+            curr_node = root
             for c in word:
-                curr = curr.children[c]
-            curr.is_word = True
+                curr_node = curr_node.children[c]
+            curr_node.is_word = True
 
-        for row, col in coordination:
-            # Initiate cache
-            self.check(board, "", row, col, root, res)
+        m, n = len(board), len(board[0])
+        res, curr = [], []
+        for x, y in itertools.product(range(m), range(n)):
+            c = board[x][y]
+            if c not in root.children:
+                continue
+            curr.append(c)
+            backtrack(x, y, root.children[c])
+            curr.pop()
 
         return sorted(res)
-
-    def check(self, board: List[List[str]], word: str, row_curr: int, col_curr: int, root: TrieNode, res: list) -> bool:
-        if root.is_word:
-            res.append(word)
-            root.is_word = False
-        curr = board[row_curr][col_curr]
-        if curr not in root.children:
-            return
-
-        row_prev = max(0, row_curr - 1)
-        col_prev = max(0, col_curr - 1)
-        row_next = min(len(board) - 1, row_curr + 1)
-        col_next = min(len(board[0]) - 1, col_curr + 1)
-
-        coordination = {
-            (row_prev, col_curr),
-            (row_next, col_curr),
-            (row_curr, col_prev),
-            (row_curr, col_next),
-        }
-        coordination = [(row, col) for row, col in coordination if board[row][col]]
-
-        board[row_curr][col_curr] = None
-        for row, col in coordination:
-            self.check(board, word + curr, row, col, root.children[curr], res)
-        board[row_curr][col_curr] = curr
 
 
 assert_value(["eat", "oath"], Solution().findWords,
@@ -69,7 +70,7 @@ assert_value(["oa", "oaa"], Solution().findWords,
 assert_value(["a"], Solution().findWords, board=[["a"]], words=["a"])
 assert_value([], Solution().findWords, board=[["a", "b"], ["c", "d"]], words=["abcb"])
 assert_value([], Solution().findWords, board=[["a", "a"]], words=["aaa"])
-assert_value([], Solution().findWords, board=[["b", "a", "b", "a", "b", "a", "b", "a", "b", "a"],
+assert_value(['ababababab'], Solution().findWords, board=[["b", "a", "b", "a", "b", "a", "b", "a", "b", "a"],
                                               ["a", "b", "a", "b", "a", "b", "a", "b", "a", "b"],
                                               ["b", "a", "b", "a", "b", "a", "b", "a", "b", "a"],
                                               ["a", "b", "a", "b", "a", "b", "a", "b", "a", "b"],
