@@ -33,12 +33,12 @@ class Solution:
     def _monostack_decrease_maxProfit(self, prices: List[int]) -> int:
         stack = []
         res = 0
-        for p in prices:
-            p_prev = p
-            while stack and stack[-1] < p:
-                p_prev = min(p_prev, stack.pop())
-            res += p - p_prev
-            stack.append(p)
+        for selling_price in prices:
+            purchase_price = selling_price
+            while stack and stack[-1] < selling_price:
+                purchase_price = min(purchase_price, stack.pop())
+            res += selling_price - purchase_price
+            stack.append(selling_price)
         return res
 
     def _monostack_increase_maxProfit(self, prices: List[int]) -> int:
