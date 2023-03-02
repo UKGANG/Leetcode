@@ -63,6 +63,18 @@ class Solution:
 
         return res
 
+    def _dp_maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+        dp_sold = [0] * n
+        dp_bought = [0] * n
+
+        dp_bought[0] = -prices[0]
+        for i in range(1, n):
+            dp_sold[i] = max(dp_sold[i - 1], dp_bought[i - 1] + prices[i])
+            dp_bought[i] = dp_sold[i] - prices[i]
+
+        return max(dp_sold)
+
     def _maxProfit(self, prices: List[int]) -> int:
         diff = [prices[i] - prices[i - 1] for i in range(1, len(prices))]
         diff = [d for d in diff if d > 0]
