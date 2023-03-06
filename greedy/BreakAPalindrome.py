@@ -19,5 +19,5 @@ class Solution:
         if found:
             return ''.join(strs)
 
-        strs[-1] = chr(ord(strs[-1]) + 1)
+        strs[-1] = 'b'
         return ''.join(strs)
