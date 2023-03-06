@@ -9,7 +9,24 @@ from test_tool import assert_value
 
 class Solution:
     def subArrayRanges(self, nums: List[int]) -> int:
-        ...
+        stack = []
+        res = 0
+        n = len(nums)
+        for right in range(n + 1):
+            while stack and (right == n or nums[stack[-1]] >= nums[right]):
+                m = stack.pop()
+                left = -1 if not stack else stack[-1]
+                res -= nums[m] * (m - left) * (right - m)
+            stack.append(right)
+        stack.clear()
+        for right in range(n + 1):
+            while stack and (right == n or nums[stack[-1]] <= nums[right]):
+                m = stack.pop()
+                left = -1 if not stack else stack[-1]
+                res += nums[m] * (m - left) * (right - m)
+            stack.append(right)
+
+        return res
 
     def _subArrayRanges(self, nums: List[int]) -> int:
         res = 0
