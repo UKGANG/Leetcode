@@ -16,14 +16,15 @@ class Solution:
             else:
                 index[arr[i]] = [i]
         arr.sort()
-        res = 0
+        res = -1
 
         left = n
         for i in range(n):
             if left > index[arr[i]][0]:
                 left = index[arr[i]][0]
             right = index[arr[i]][-1]
-            res = max(res, right - left)
+            if right != left:
+                res = max(res, right - left)
         return res
 
     def _cache_maximumIndex(self, arr: List[int]) -> int:
@@ -58,8 +59,8 @@ class Solution:
         return res
 
 
-# assert_value(1, Solution().maximumIndex, arr=[1, 10])
+assert_value(1, Solution().maximumIndex, arr=[1, 10])
 assert_value(6, Solution().maximumIndex, arr=[34, 8, 10, 3, 2, 80, 30, 33, 1])
-# assert_value(8, Solution().maximumIndex, arr=[9, 2, 3, 4, 5, 6, 7, 8, 18, 0])
-# assert_value(5, Solution().maximumIndex, arr=[1, 2, 3, 4, 5, 6])
-# assert_value(-1, Solution().maximumIndex, arr=[6, 5, 4, 3, 2, 1])
+assert_value(8, Solution().maximumIndex, arr=[9, 2, 3, 4, 5, 6, 7, 8, 18, 0])
+assert_value(5, Solution().maximumIndex, arr=[1, 2, 3, 4, 5, 6])
+assert_value(-1, Solution().maximumIndex, arr=[6, 5, 4, 3, 2, 1])
