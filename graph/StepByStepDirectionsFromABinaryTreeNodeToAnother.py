@@ -17,6 +17,43 @@ class TreeNode:
 
 class Solution:
     def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
+        def find(node, val):
+            if not node:
+                return False
+            if node.val == val:
+                res.extend(curr[:])
+                return True
+
+            curr.append(('L', node.val))
+            if find(node.left, val):
+                return True
+            curr.pop()
+
+            curr.append(('R', node.val))
+            if find(node.right, val):
+                return True
+            curr.pop()
+            return False
+
+        res = start = []
+        curr = []
+        find(root, startValue)
+
+        res = end = []
+        curr.clear()
+        find(root, destValue)
+
+        idx = 0
+        while idx < min(len(start), len(end)) and start[idx][0] == end[idx][0]:
+            idx += 1
+        start = ['U'] * (len(start) - idx)
+        end = end[idx:]
+        end = [source for source, v in end]
+        start.extend(end)
+
+        return ''.join(start)
+
+    def _getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
         cache_start = []
         self.find(root, startValue, cache_start)
         cache_dest = []
