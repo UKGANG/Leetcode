@@ -6,7 +6,38 @@ from typing import List
 
 
 class Solution:
+    # Hash
     def minOperations(self, nums1: List[int], nums2: List[int]) -> int:
+        if len(nums1) * 6 < len(nums2):
+            return -1
+        if len(nums2) * 6 < len(nums1):
+            return -1
+        sum1, sum2 = map(sum, (nums1, nums2))
+
+        if sum1 > sum2:
+            nums1, nums2 = nums2, nums1
+            sum1, sum2 = sum2, sum1
+
+        counter = [0] * 6
+
+        for num in nums1:
+            counter[6 - num] += 1
+        for num in nums2:
+            counter[num - 1] += 1
+
+        res, i = 0, 5
+        while sum1 < sum2:
+            while not counter[i]:
+                i -= 1
+
+            sum1 += i
+            counter[i] -= 1
+            res += 1
+
+        return res
+
+    # Greedy
+    def _minOperations(self, nums1: List[int], nums2: List[int]) -> int:
         if len(nums1) * 6 < len(nums2):
             return -1
         if len(nums2) * 6 < len(nums1):
