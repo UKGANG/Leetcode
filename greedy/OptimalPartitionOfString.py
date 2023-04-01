@@ -10,11 +10,10 @@ class Solution:
         counter = collections.Counter()
         res = 0
         for right in range(len(s)):
-            counter[s[right]] += 1
-            if counter[s[right]] > 1:
+            if counter[s[right]] == 1:
                 res += 1
                 counter.clear()
-                counter[s[right]] += 1
+            counter[s[right]] += 1
 
         res += 1
         return res
