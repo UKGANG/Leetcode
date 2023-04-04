@@ -2,7 +2,6 @@
 46. Permutations
 https://leetcode.com/problems/permutations/
 '''
-import re
 from typing import List
 
 from test_tool import assert_value
