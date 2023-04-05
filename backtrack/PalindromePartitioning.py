@@ -3,7 +3,7 @@
 https://leetcode.com/problems/palindrome-partitioning/
 '''
 import functools
-from typing import List, Tuple
+from typing import List
 
 from test_tool import assert_value
 
@@ -36,3 +36,6 @@ class Solution:
         if l + 1 == r:
             return True
         return self.is_palindrome(l + 1, r - 1, s)
+
+
+assert_value([["a", "a", "b"], ["aa", "b"]], Solution().partition, s="aab")
