@@ -16,11 +16,11 @@ class Solution:
             while idx_target < len(target) and target[idx_target] == '_':
                 idx_target += 1
 
-            if idx_start < len(start) and idx_target < len(target) \
-                    and (
-                    (start[idx_start] == 'L' and idx_start < idx_target)
-                    or (start[idx_start] == 'R' and idx_start > idx_target)
-            ):
+            if idx_start == len(start) and idx_target == len(target):
+                break
+            if start[idx_start] == 'L' and idx_start < idx_target:
+                return False
+            if start[idx_start] == 'R' and idx_start > idx_target:
                 return False
             idx_start += 1
             idx_target += 1
