@@ -23,6 +23,8 @@ class Solution:
         return res
 
 
+assert_value(3, Solution().countRangeSum, nums=[-2147483647, 0, -2147483647, 2147483647], lower=-564, upper=3864)
+assert_value(3, Solution().countRangeSum, nums=[0, -3, -3, 1, 1, 2], lower=3, upper=5)
 assert_value(3, Solution().countRangeSum, nums=[-2, 5, -1], lower=-2, upper=2)
 assert_value(1, Solution().countRangeSum, nums=[0], lower=0, upper=0)
 assert_value(3, Solution().countRangeSum,
