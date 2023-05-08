@@ -2,6 +2,7 @@
 149. Max Points on a Line
 https://leetcode.com/problems/max-points-on-a-line/
 '''
+import collections
 from collections import defaultdict
 from typing import List
 
@@ -10,19 +11,20 @@ from test_tool import assert_value
 
 class Solution:
     def maxPoints(self, points: List[List[int]]) -> int:
-        if len(points) == 1:
+        n = len(points)
+        if n == 1:
             return 1
+        line_counter = collections.defaultdict(set)
 
-        slope_cache = defaultdict(set)
-        for a in range(len(points) - 1):
-            for b in range(a + 1, len(points)):
+        for a in range(n - 1):
+            for b in range(a + 1, n):
                 p1 = tuple(points[a])
                 p2 = tuple(points[b])
                 slope = float('inf') if p1[0] == p2[0] else (p1[1] - p2[1]) / (p1[0] - p2[0])
                 intercept = p1[0] if p1[0] == p2[0] else p1[1] - slope * p1[0]
-                slope_cache[(slope, intercept)] |= set([p1, p2])
-
-        return len(sorted(slope_cache.items(), key=lambda item: len(item[1]), reverse=True)[0][1])
+                line_counter[(slope, intercept)].add(p1)
+                line_counter[(slope, intercept)].add(p2)
+        return len(sorted(line_counter.values(), key=len)[-1])
 
 
 assert_value(1, Solution().maxPoints, points=[[0, 0]])
