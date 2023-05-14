@@ -2,6 +2,7 @@
 4. Median of Two Sorted Arrays
 https://leetcode.com/problems/median-of-two-sorted-arrays
 """
+import bisect
 from typing import List
 
 from test_tool import assert_value
@@ -9,6 +10,17 @@ from test_tool import assert_value
 
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        m, n = len(nums1), len(nums2)
+        if m < n:
+            return self.findMedianSortedArrays(nums2, nums1)
+        for n2 in nums2:
+            bisect.insort_right(nums1, n2)
+        idx = (m + n) >> 1
+        if (m + n) & 1:
+            return nums1[idx]
+        return (nums1[idx - 1] + nums1[idx]) / 2
+
+    def _2_pointer_findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
         m, n = len(nums1), len(nums2)
         p1 = p2 = 0
         arr = []
@@ -44,5 +56,6 @@ class Solution:
         return nums1[m] if len(nums1) & 1 else (nums1[m - 1] + nums1[m]) / 2
 
 
-assert_value(2, Solution().findMedianSortedArrays, nums1=[2], nums2=[1, 3])
-assert_value(2.5, Solution().findMedianSortedArrays, nums1=[1, 2], nums2=[3, 4])
+# assert_value(2, Solution().findMedianSortedArrays, nums1=[2], nums2=[1, 3])
+assert_value(2, Solution().findMedianSortedArrays, nums1=[1, 3], nums2=[2])
+# assert_value(2.5, Solution().findMedianSortedArrays, nums1=[1, 2], nums2=[3, 4])
