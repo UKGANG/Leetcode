@@ -44,5 +44,5 @@ class Solution:
         return nums1[m] if len(nums1) & 1 else (nums1[m - 1] + nums1[m]) / 2
 
 
-# assert_value(2, Solution().findMedianSortedArrays, nums1=[2], nums2=[1, 3])
+assert_value(2, Solution().findMedianSortedArrays, nums1=[2], nums2=[1, 3])
 assert_value(2.5, Solution().findMedianSortedArrays, nums1=[1, 2], nums2=[3, 4])
