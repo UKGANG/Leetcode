@@ -2,6 +2,7 @@
 336. Palindrome Pairs
 https://leetcode.com/problems/palindrome-pairs/
 """
+import collections
 from typing import List
 
 
@@ -23,7 +24,7 @@ class Solution:
             del length_collection[0]
             for idx, word in enumerate(words):
                 if not word:
-                    continue
+                    break
                 if check(word):
                     res.append([idx, reverse_cache['']])
                     res.append([reverse_cache[''], idx])
