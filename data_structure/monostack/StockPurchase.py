@@ -9,6 +9,14 @@ from test_tool import assert_value
 
 class Solution:
     def purchase(self, prices: List[int]):
+        res = 0
+        curr_max = prices[-1]
+        for i in range(len(prices) - 1, -1, -1):
+            curr_max = max(curr_max, prices[i])
+            res += curr_max - prices[i]
+        return res
+
+    def _purchase(self, prices: List[int]):
         stack = []
         res = 0
         for i in range(len(prices) - 1, -1, -1):
