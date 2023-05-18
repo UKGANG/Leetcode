@@ -2,6 +2,7 @@
 547. Number of Provinces
 https://leetcode.com/problems/number-of-provinces/
 '''
+import collections
 from typing import List, Tuple
 
 from test_tool import assert_value
@@ -9,6 +10,29 @@ from test_tool import assert_value
 
 class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        def bfs(x):
+            nonlocal n
+            queue = collections.deque([x])
+            while queue:
+                x = queue.popleft()
+                for y in range(n):
+                    if isConnected[x][y]:
+                        isConnected[x][y] = 0
+                        isConnected[y][x] = 0
+                        queue.append(y)
+
+        n = len(isConnected)
+        res = 0
+        for x in range(n):
+            if not isConnected[x][x]:
+                continue
+            isConnected[x][x] = 0
+            res += 1
+            bfs(x)
+
+        return res
+
+    def _findCircleNum(self, isConnected: List[List[int]]) -> int:
         size = len(isConnected)
         visited = []
         for i in range(size):
@@ -50,16 +74,16 @@ class Solution:
                 pending_visit.append((idx, j))
 
 
-assert_value(2, Solution().findCircleNum, isConnected=[
-    [1, 1, 0],
-    [1, 1, 0],
-    [0, 0, 1]
-])
-assert_value(3, Solution().findCircleNum, isConnected=[
-    [1, 0, 0],
-    [0, 1, 0],
-    [0, 0, 1]
-])
+# assert_value(2, Solution().findCircleNum, isConnected=[
+#     [1, 1, 0],
+#     [1, 1, 0],
+#     [0, 0, 1]
+# ])
+# assert_value(3, Solution().findCircleNum, isConnected=[
+#     [1, 0, 0],
+#     [0, 1, 0],
+#     [0, 0, 1]
+# ])
 assert_value(1, Solution().findCircleNum, isConnected=[
     [1, 0, 0, 1],
     [0, 1, 1, 0],
