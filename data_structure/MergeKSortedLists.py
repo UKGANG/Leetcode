@@ -17,20 +17,21 @@ class ListNode:
 
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
-        lists = [n for n in lists if n]
-        h = []
+        queue = []
         for idx, node in enumerate(lists):
-            heapq.heappush(h, (node.val, idx, node))
+            if not node:
+                continue
+            heapq.heappush(queue, (node.val, idx, node))
 
         dummy = ListNode()
         curr = dummy
-        while h:
-            _, idx, curr.next = heapq.heappop(h)
+        while queue:
+            _, idx, node = heapq.heappop(queue)
+            curr.next = node
             curr = curr.next
-            if curr.next:
-                heapq.heappush(h, (curr.next.val, idx, curr.next))
-
-        curr.next = None
+            if node.next:
+                heapq.heappush(queue, (node.next.val, idx, node.next))
+            node.next = None
 
         return dummy.next
 
