@@ -9,8 +9,6 @@ from test_tool import assert_value
 """
 # Definition for a Node.
 """
-
-
 class Node:
     def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
         self.val = int(x)
@@ -20,6 +18,41 @@ class Node:
 
 class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        cache_old = {}
+        dummy_old = Node(-1, head)
+        curr_old = dummy_old
+        cnt = 0
+        while curr_old:
+            cache_old[curr_old] = cnt
+            curr_old = curr_old.next
+            cnt += 1
+
+        curr_old = dummy_old.next
+        dummy_new = Node(-1, None)
+        prev_new = dummy_new
+
+        cache_new = [dummy_new]
+        while curr_old:
+            curr_new = Node(curr_old.val, None)
+            prev_new.next = curr_new
+
+            cache_new.append(curr_new)
+
+            curr_old = curr_old.next
+            prev_new = curr_new
+
+        curr_old = dummy_old
+        curr_new = dummy_new
+        while curr_old:
+            if curr_old.random:
+                idx = cache_old[curr_old.random]
+                curr_new.random = cache_new[idx]
+            curr_old = curr_old.next
+            curr_new = curr_new.next
+
+        return dummy_new.next
+
+    def _copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
         # 1. Calculate sequences
         dummy_orig = Node(-1, head)
         nodes_orig = {}
