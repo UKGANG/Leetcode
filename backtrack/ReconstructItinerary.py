@@ -5,31 +5,27 @@ https://leetcode.com/problems/reconstruct-itinerary/
 import collections
 from typing import List
 
-from test_tool import assert_value
-
 
 class Solution:
     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
         def backtrack(depature):
-            if len(combo) - 1 == len(tickets):
+            if len(res) - 1 == len(tickets):
                 return True
 
-            arrival_list = graph[depature]
-            size = len(arrival_list)
-            for _ in range(size):
-                arrival = arrival_list.pop(0)
-                combo.append(arrival)
+            for _ in range(len(routes[depature])):
+                arrival = routes[depature].popleft()
+                res.append(arrival)
                 if backtrack(arrival):
-                    return True
-                combo.pop()
-                arrival_list.append(arrival)
+                    return res
+                routes[depature].append(res.pop())
 
-        graph = collections.defaultdict(list)
+        routes = collections.defaultdict(list)
         for depature, arrival in tickets:
-            graph[depature].append(arrival)
+            routes[depature].append(arrival)
 
-        for depature in graph.keys():
-            graph[depature] = sorted(graph[depature])
-        combo = ['JFK']
+        for depature in routes.keys():
+            routes[depature] = collections.deque(sorted(routes[depature]))
+
+        res = ['JFK']
         backtrack('JFK')
-        return combo
+        return res
