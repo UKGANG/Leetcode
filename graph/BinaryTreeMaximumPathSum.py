@@ -17,28 +17,28 @@ class TreeNode:
 
 class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
-        cache = {}
-        self.dfs(root, cache)
-        return cache['res']
+        def dfs(root: Optional[TreeNode]):
+            if not root:
+                return None
+            nonlocal res
+            res = max(res, root.val)
+            left = dfs(root.left)
+            right = dfs(root.right)
 
-    def dfs(self, root: Optional[TreeNode], cache) -> int:
-        if not root:
-            return None
-        left = self.dfs(root.left, cache)
-        right = self.dfs(root.right, cache)
-        max_val = cache.get('res', root.val)
-        if left:
-            max_val = max(max_val, left, left + root.val)
-        if right:
-            max_val = max(max_val, right, right + root.val)
-        if left and right:
-            max_val = max(max_val, left + right + root.val)
-        max_val = max(max_val, root.val)
-        cache['res'] = max_val
+            if root.left:
+                res = max(res, left, left + root.val)
+            if root.right:
+                res = max(res, right, right + root.val)
+            if root.left and root.right:
+                res = max(res, left + right + root.val)
 
-        left = 0 if not left else left
-        right = 0 if not right else right
-        return max(root.val, root.val + left, root.val + right)
+            left = 0 if not root.left else left
+            right = 0 if not root.right else right
+            return max(root.val, root.val + left, root.val + right)
+
+        res = root.val
+        dfs(root)
+        return res
 
 
 node2 = TreeNode(2)
