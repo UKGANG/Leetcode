@@ -13,9 +13,7 @@ class UndoRedoMap:
         self.delete = self.log(self.delete)
 
     def get(self, key):
-        if key not in self._map:
-            return None
-        return self._map[key]
+        return self._map.get(key, None)
 
     def set(self, key, val):
         self._map[key] = val
