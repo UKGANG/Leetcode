@@ -9,6 +9,18 @@ from test_tool import assert_value
 
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals = sorted(intervals)
+        res = [intervals[0]]
+
+        for i in range(1, len(intervals)):
+            start, end = intervals[i]
+            if start <= res[-1][-1]:
+                res[-1][-1] = max(end, res[-1][-1])
+            else:
+                res.append([start, end])
+        return res
+
+    def _merge(self, intervals: List[List[int]]) -> List[List[int]]:
         intervals.sort()
         l, r = intervals[0]
         res = []
@@ -21,7 +33,7 @@ class Solution:
         res.append([l, r])
         return res
 
-    def _merge(self, intervals: List[List[int]]) -> List[List[int]]:
+    def __merge(self, intervals: List[List[int]]) -> List[List[int]]:
         if 1 >= len(intervals):
             return intervals
         intervals = sorted(intervals)
