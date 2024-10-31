@@ -27,6 +27,22 @@ class Solution:
     """
 
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+        cache = collections.defaultdict(list)
+        self.traverse(0, 0, root, cache)
+        groups = map(itemgetter(1), sorted(cache.items()))
+        res = []
+        for group in groups:
+            res.append(list(map(itemgetter(1), sorted(group))))
+        return res
+
+    def traverse(self, row, col, node, cache):
+        cache[col].append((row, node.val))
+        if node.left:
+            self.traverse(row + 1, col - 1, node.left, cache)
+        if node.right:
+            self.traverse(row + 1, col + 1, node.right, cache)
+
+    def _verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root:
             return []
         cache = collections.defaultdict(list)
