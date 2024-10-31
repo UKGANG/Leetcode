@@ -17,6 +17,28 @@ class Solution:
         for i in range(len(nums) - 1, 0, -1):
             if nums[i - 1] >= nums[i]:
                 continue
+            pivot = i
+            left = i - 1
+
+            right = pivot
+            for j in range(pivot, len(nums)):
+                if nums[left] < nums[j]:
+                    right = j
+                else:
+                    break
+            nums[left], nums[right] = nums[right], nums[left]
+            nums[pivot:] = nums[pivot::-1]
+            break
+        else:
+            nums.reverse()
+
+    def _nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        for i in range(len(nums) - 1, 0, -1):
+            if nums[i - 1] >= nums[i]:
+                continue
             head = i - 1
             tail = i
             for j in range(tail, len(nums)):
@@ -33,7 +55,7 @@ class Solution:
         else:
             nums.reverse()
 
-    def _nextPermutation(self, nums: List[int]) -> None:
+    def __nextPermutation(self, nums: List[int]) -> None:
         """
         Do not return anything, modify nums in-place instead.
         """
