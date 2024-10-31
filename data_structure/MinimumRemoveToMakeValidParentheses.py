@@ -2,12 +2,33 @@
 1249. Minimum Remove to Make Valid Parentheses
 https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
 '''
+import operator
 
 from test_tool import assert_value
 
 
 class Solution:
-    def minRemoveToMakeValid_v1(self, s: str) -> str:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        stack = []
+        special_chars = {'(', ')'}
+        for idx, c in enumerate(s):
+            if c not in special_chars:
+                continue
+            if c == '(':
+                stack.append((c, idx))
+            elif stack and stack[-1][0] == '(':
+                stack.pop()
+            else:
+                stack.append((c, idx))
+        invalid_char_idx = set(map(operator.itemgetter(1), stack))
+        res = []
+        for idx in range(len(s) - 1, -1, -1):
+            if idx in invalid_char_idx:
+                continue
+            res.append(s[idx])
+        return ''.join(reversed(res))
+
+    def minRemoveToMakeValid_v2(self, s: str) -> str:
         res = ''
         stack = []
         for c in s:
@@ -26,7 +47,7 @@ class Solution:
         stack.append(res)
         return ''.join(stack)
 
-    def minRemoveToMakeValid(self, s: str) -> str:
+    def minRemoveToMakeValid_v1(self, s: str) -> str:
         stack = []
         curr = ''
         for c in s:
