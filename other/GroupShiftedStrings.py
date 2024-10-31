@@ -10,6 +10,18 @@ from test_tool import assert_value
 
 class Solution:
     def groupStrings(self, strings: List[str]) -> List[List[str]]:
+        def hashcode(string):
+            code = []
+            for c in string[1:]:
+                code.append((ord(c) - ord(string[0]) + 26) % 26)
+            return tuple(code)
+
+        cache = collections.defaultdict(list)
+        for string in strings:
+            cache[hashcode(string)].append(string)
+        return list(cache.values())
+
+    def _groupStrings(self, strings: List[str]) -> List[List[str]]:
         def hashcode(s):
             start = ord(s[0])
             return (0, *((max(ord(c) - start, ord(c) + 26 - start)) % 26 for c in s[1:])), s
