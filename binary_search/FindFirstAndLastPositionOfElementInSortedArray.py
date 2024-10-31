@@ -9,6 +9,31 @@ from test_tool import assert_value
 
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
+        if not nums or nums[0] > target or nums[-1] < target:
+            return [-1, -1]
+
+        l, r = 0, len(nums)
+        while l < r:
+            m = (l + r) >> 1
+            if nums[m] <= target:
+                l = m + 1
+            else:
+                r = m
+        end = l - 1
+        if end == -1 or nums[end] != target:
+            return [-1, -1]
+
+        l, r = 0, end
+        while l < r:
+            m = (l + r) >> 1
+            if nums[m] < target:
+                l = m + 1
+            else:
+                r = m
+        start = l
+        return [start, end]
+
+    def searchRange_v0(self, nums: List[int], target: int) -> List[int]:
         # Find the middle location.
         if len(nums) == 0:
             return [-1, -1]
