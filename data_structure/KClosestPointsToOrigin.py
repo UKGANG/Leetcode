@@ -2,6 +2,8 @@
 973. K Closest Points to Origin
 https://leetcode.com/problems/k-closest-points-to-origin/
 '''
+import heapq
+import operator
 from heapq import heappop, heappush, heappushpop
 from typing import List
 
@@ -12,6 +14,14 @@ class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
         res = []
         for x, y in points:
+            heapq.heappush(res, (-x ** 2 - y ** 2, (x, y)))
+            if len(res) > k:
+                heapq.heappop(res)
+        return list(map(operator.itemgetter(1), res))
+
+    def _kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        res = []
+        for x, y in points:
             dist = -x ** 2 - y ** 2
             if len(res) == k:
                 heappushpop(res, (dist, x, y))
@@ -20,7 +30,7 @@ class Solution:
 
         return [[x, y] for rank, x, y in res]
 
-    def _kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+    def __kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
         res = []
         for idx, (x, y) in enumerate(points):
             dist = -x ** 2 - y ** 2
