@@ -2,6 +2,7 @@
 938. Range Sum of BST
 https://leetcode.com/problems/range-sum-of-bst/
 '''
+from collections import deque
 from typing import List, Optional
 
 from test_tool import assert_value
@@ -17,6 +18,20 @@ class TreeNode:
 
 class Solution:
     def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+        queue = deque([root])
+        res = 0
+        while queue:
+            for _ in range(len(queue)):
+                v = queue.popleft()
+                res += v.val if low <= v.val <= high else 0
+                if v.left:
+                    queue.append(v.left)
+                if v.right:
+                    queue.append(v.right)
+
+        return res
+
+    def _rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
         stack = []
         curr = root
         res = 0
