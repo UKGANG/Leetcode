@@ -17,16 +17,36 @@ class TreeNode:
 
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        return self._sumNumbers(root, 0)
+        res = self.get_numbers(root)
+        res = map(int, res)
+        return sum(res)
 
-    def _sumNumbers(self, root: Optional[TreeNode], pre: int) -> int:
+    def get_numbers(self, root):
+
+        left = []
+        right = []
+        if root.left:
+            left.extend(self.get_numbers(root.left))
+            left = [f'{root.val}{n}' for n in left]
+        if root.right:
+            right.extend(self.get_numbers(root.right))
+            right = [f'{root.val}{n}' for n in right]
+        left.extend(right)
+        if not left:
+            left.append(str(root.val))
+        return left
+
+    def _sumNumbers_v1(self, root: Optional[TreeNode]) -> int:
+        return self.__sumNumbers_v1(root, 0)
+
+    def __sumNumbers_v1(self, root: Optional[TreeNode], pre: int) -> int:
         if not root:
             return 0
         if not root.left and not root.right:
             return pre * 10 + root.val
 
-        left = self._sumNumbers(root.left, pre * 10 + root.val)
-        right = self._sumNumbers(root.right, pre * 10 + root.val)
+        left = self.__sumNumbers_v1(root.left, pre * 10 + root.val)
+        right = self.__sumNumbers_v1(root.right, pre * 10 + root.val)
         return left + right
 
 
