@@ -17,6 +17,27 @@ class ListNode:
 
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        lists = [sorted_list for sorted_list in lists if sorted_list]
+        if not lists:
+            return None
+        queue = [[sorted_list.val, idx] for idx, sorted_list in enumerate(lists)]
+        heapq.heapify(queue)
+        dummy = ListNode()
+        curr = dummy
+        while queue:
+            val, idx = heapq.heappop(queue)
+            sorted_list = lists[idx]
+            curr.next = sorted_list
+            curr = sorted_list
+            if not sorted_list.next:
+                continue
+            if not queue:
+                return dummy.next
+            lists[idx] = sorted_list.next
+            heapq.heappush(queue, [sorted_list.next.val, idx])
+        return dummy.next
+
+    def _mergeKLists_2023_2(self, lists: List[ListNode]) -> ListNode:
         queue = []
         for idx, node in enumerate(lists):
             if not node:
@@ -35,7 +56,7 @@ class Solution:
 
         return dummy.next
 
-    def _mergeKLists(self, lists: List[ListNode]) -> ListNode:
+    def _mergeKLists_2023(self, lists: List[ListNode]) -> ListNode:
         lists = [n for n in lists if n]
         priority_queue = []
         for idx, node in enumerate(lists):
