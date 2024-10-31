@@ -9,6 +9,15 @@ from test_tool import assert_value
 
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
+        nums.insert(0, -float('inf'))
+        nums.append(-float('inf'))
+        for i in range(1, len(nums) - 1):
+            if nums[i - 1] < nums[i] and nums[i + 1] < nums[i]:
+                return i - 1
+
+        return len(nums) - 3
+
+    def _findPeakElement(self, nums: List[int]) -> int:
         return self._find(nums, 0, len(nums) - 1)
 
     def _find(self, nums: List[int], l: int, r: int) -> int:
@@ -27,7 +36,7 @@ class Solution:
             return self._find(nums, l, m)
         return self._find(nums, m, r)
 
-    def _findPeakElement(self, nums: List[int]) -> int:
+    def __findPeakElement(self, nums: List[int]) -> int:
         diff = [nums[i] - nums[i - 1] for i in range(1, len(nums))]
         for i in range(1, len(diff)):
             if diff[i - 1] > 0 and diff[i] < 0:
