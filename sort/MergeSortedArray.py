@@ -8,7 +8,7 @@ from test_tool import assert_value
 
 
 class Solution:
-    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> List[int]:
         """
         Do not return anything, modify nums1 in-place instead.
         """
@@ -25,8 +25,7 @@ class Solution:
                 n -= 1
             idx -= 1
 
-        for i in range(n):
-            nums1[i] = nums2[i]
+        nums1[:n] = nums2[:n]
 
         return nums1
 
