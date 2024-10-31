@@ -9,6 +9,17 @@ from test_tool import assert_value
 
 class Solution:
     def longestCommonPrefix(self, strs: List[str]) -> str:
+        shortest_str = min(strs, key=len)
+        size = len(shortest_str)
+        res = []
+        for i in range(size):
+            c = strs[0][i]
+            for j in range(1, len(strs)):
+                if strs[j][i] != c:
+                    return strs[0][:i]
+        return shortest_str
+
+    def longestCommonPrefix_v0(self, strs: List[str]) -> str:
         idx = 0
         len_min = len(min(strs, key=len))
         cache = set()
