@@ -13,6 +13,25 @@ class ListNode:
 
 class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummy_head = ListNode(next=head)
+        node_prev = dummy_head
+        node_curr = head
+        while node_curr and node_curr.next:
+            node_1 = node_curr
+            node_2 = node_1.next if node_1 else None
+            node_next = node_2.next if node_2 else None
+
+            node_prev.next = node_2
+            node_1.next = node_next
+            if node_2:
+                node_2.next = node_1
+
+            node_curr = node_next
+            node_prev = node_1
+
+        return dummy_head.next
+
+    def _swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
         dummy = ListNode(None, head)
         head = dummy
         while head and head.next and head.next.next:
