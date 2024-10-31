@@ -2,6 +2,7 @@
 215. Kth Largest Element in an Array
 https://leetcode.com/problems/kth-largest-element-in-an-array/
 '''
+import heapq
 from heapq import heapify
 from typing import List
 from test_tool import assert_value
@@ -9,6 +10,14 @@ from test_tool import assert_value
 
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
+        h = []
+        for n in nums:
+            heapq.heappush(h, -n)
+        for _ in range(k):
+            res = heapq.heappop(h)
+        return -res
+
+    def _findKthLargest(self, nums: List[int], k: int) -> int:
         min_heap = nums[:k]
         heapify(min_heap)
         rest_num = nums[k:]
