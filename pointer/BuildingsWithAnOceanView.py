@@ -9,6 +9,15 @@ from test_tool import assert_value
 
 class Solution:
     def findBuildings(self, heights: List[int]) -> List[int]:
+        res = []
+        for i in range(len(heights) - 1, -1, -1):
+            if res and heights[res[-1]] >= heights[i]:
+                continue
+            res.append(i)
+
+        return res[::-1]
+
+    def _findBuildings(self, heights: List[int]) -> List[int]:
         l = len(heights) - 1
         curr_top = 0
         res = []
