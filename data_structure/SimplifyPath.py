@@ -12,6 +12,22 @@ class Solution:
         self._splitter = '/'
 
     def simplifyPath(self, path: str) -> str:
+        slash = '/'
+        stack = []
+
+        for token in path.split(slash):
+            if '.' == token:
+                continue
+            if '..' == token:
+                if stack:
+                    stack.pop()
+                continue
+            if '' == token:
+                continue
+            stack.append(token)
+        return slash + slash.join(stack)
+
+    def _simplifyPath(self, path: str) -> str:
         q = path.split(self._splitter)
 
         res = []
