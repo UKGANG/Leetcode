@@ -9,6 +9,13 @@ from test_tool import assert_value
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
+        min_price, res = float('inf'), 0
+        for price in prices:
+            min_price = min(min_price, price)
+            res = max(res, price - min_price)
+        return res
+
+    def maxProfit_v3(self, prices: List[int]) -> int:
         res, curr = 0, 0
         for idx in range(1, len(prices)):
             d = prices[idx] - prices[idx - 1]
@@ -17,7 +24,7 @@ class Solution:
             res = max(curr, res)
         return res
 
-    def _2_cache_maxProfit(self, prices: List[int]) -> int:
+    def maxProfit_v2(self, prices: List[int]) -> int:
         dp_cash = [0] * len(prices)
         dp_stock = [0] * len(prices)
 
@@ -30,7 +37,7 @@ class Solution:
 
         return dp_cash[-1]
 
-    def _maxProfit(self, prices: List[int]) -> int:
+    def maxProfit_v1(self, prices: List[int]) -> int:
         n = len(prices)
 
         if n == 1:
@@ -47,7 +54,7 @@ class Solution:
 
         return max(*dp, 0)
 
-    def __maxProfit(self, prices: List[int]) -> int:
+    def maxProfit_v0(self, prices: List[int]) -> int:
         res = [0] * len(prices)
         for i in range(1, len(prices)):
             diff = prices[i] - prices[i - 1]
