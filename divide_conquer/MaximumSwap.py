@@ -9,6 +9,22 @@ from test_tool import assert_value
 
 class Solution:
     def maximumSwap(self, num: int) -> int:
+        res = num
+        num_str = list(str(num))
+        stack = []
+        for i in range(len(num_str) - 1, -1, -1):
+            while stack and int(num_str[stack[-1]]) < int(num_str[i]):
+                stack.pop()
+            if stack:
+                num_str[stack[0]], num_str[i] = num_str[i], num_str[stack[0]]
+                res = max(res, int(''.join(num_str)))
+                num_str[stack[0]], num_str[i] = num_str[i], num_str[stack[0]]
+            stack.append(i)
+        num_str[stack[0]], num_str[stack[-1]] = num_str[stack[-1]], num_str[stack[0]]
+        res = max(res, int(''.join(num_str)))
+        return res
+
+    def maximumSwap_v2(self, num: int) -> int:
         max_cache = []
         num = list(str(num))
         for idx, n in enumerate(num):
