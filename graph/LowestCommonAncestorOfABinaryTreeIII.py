@@ -2,14 +2,12 @@
 1650. Lowest Common Ancestor of a Binary Tree III
 https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree-iii/
 '''
-from collections import defaultdict
-from typing import List
-
-from test_tool import assert_value
 
 """
 # Definition for a Node.
 """
+
+
 class Node:
     def __init__(self, val):
         self.val = val
@@ -20,6 +18,16 @@ class Node:
 
 class Solution:
     def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
+        reversed_idx = set()
+        while p:
+            reversed_idx.add(p)
+            p = p.parent
+        while q not in reversed_idx:
+            reversed_idx.add(q)
+            q = q.parent
+        return q
+
+    def _lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
         node_list = {}
         while p:
             node_list[p.val] = p
