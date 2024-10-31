@@ -13,6 +13,29 @@ class ListNode:
 
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        head = None
+        carry = 0
+        dummy = ListNode()
+        prev = dummy
+        while l1 or l2:
+            v1 = l1.val if l1 else 0
+            v2 = l2.val if l2 else 0
+            val = carry + v1 + v2
+            carry = val // 10
+            val = val % 10
+            curr = ListNode(val)
+            prev.next = curr
+            prev = curr
+            if l1:
+                l1 = l1.next
+            if l2:
+                l2 = l2.next
+        if carry:
+            curr = ListNode(carry)
+            prev.next = curr
+        return dummy.next
+
+    def _addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         root = curr = ListNode()
         p1, p2 = l1, l2
         residual = 0
