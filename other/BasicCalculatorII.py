@@ -12,30 +12,30 @@ from test_tool import assert_value
 class Solution:
     def calculate(self, s: str) -> int:
         s = s.replace(' ', '')
-        for opt in "+-*/":
+        for opt in '+-*/':
             s = s.replace(opt, f' {opt} ')
         s = s.lstrip().rstrip()
-        opt = "+"
         curr, prev = 0, 0
+        opt = '+'
         for token in s.split():
-            if token in "+-*/":
+            if token in '+-*/':
                 opt = token
+                continue
+            num = int(token)
+            if opt == '+':
+                curr += num
+                prev = num
+            elif opt == '-':
+                curr -= num
+                prev = -num
+            elif opt == '*':
+                curr -= prev
+                prev = prev * num
+                curr += prev
             else:
-                token = int(token)
-                if opt == "+":
-                    curr += token
-                    prev = token
-                elif opt == "-":
-                    curr -= token
-                    prev = -token
-                elif opt == "/":
-                    curr = curr - prev + int(prev / token)
-                    prev /= token
-                    prev = int(prev)
-                else:
-                    curr = curr - prev + prev * token
-                    prev *= token
-
+                curr -= prev
+                prev = int(prev / num)
+                curr += prev
         return curr
 
     def _calculate(self, s: str) -> int:
