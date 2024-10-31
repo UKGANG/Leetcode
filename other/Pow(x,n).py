@@ -11,6 +11,25 @@ class Solution:
     def myPow(self, x: float, n: int) -> float:
         if not n:
             return 0 if not x else 1
+        p = n
+        if p < 0:
+            p *= -1
+        res = self._pow(x, p)
+        if n < 0:
+            res = 1/res
+        return res
+
+    def _pow(self, x: float, n: int) -> float:
+        if not n:
+            return x
+        res = self.myPow(x * x, n >> 1)
+
+        if n & 1:
+            res *= x
+        return res
+    def myPow_v1(self, x: float, n: int) -> float:
+        if not n:
+            return 0 if not x else 1
         res = 1.
 
         m = n if n > 0 else -n
