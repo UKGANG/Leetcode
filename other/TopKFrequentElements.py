@@ -3,6 +3,7 @@
 https://leetcode.com/problems/top-k-frequent-elements/
 '''
 import collections
+import heapq
 from typing import List
 
 from test_tool import assert_value
@@ -10,6 +11,16 @@ from test_tool import assert_value
 
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        freq = collections.Counter(nums)
+        pq = [(-v, k) for k, v in freq.items()]
+        heapq.heapify(pq)
+        res = []
+        while k:
+            res.append(heapq.heappop(pq)[1])
+            k -= 1
+        return res
+
+    def _topKFrequent(self, nums: List[int], k: int) -> List[int]:
         freq = collections.Counter(nums)
 
         freq = sorted(freq.items(), key=lambda pair: -pair[1])[:k]
