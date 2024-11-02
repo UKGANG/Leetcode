@@ -32,6 +32,32 @@ class UnionFind:
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        m, n = len(grid), len(grid[0])
+        stack = []
+        res = 0
+        offset = [
+            (0, 1),
+            (0, -1),
+            (1, 0),
+            (-1, 0),
+        ]
+        for x, y in itertools.product(range(m), range(n)):
+            if grid[x][y] == '0':
+                continue
+            res += 1
+            stack.append((x, y))
+            while stack:
+                x, y = stack.pop()
+                grid[x][y] = '0'
+                for _x, _y in offset:
+                    _x += x
+                    _y += y
+                    if not (0 <= _x < m and 0 <= _y < n) or grid[_x][_y] == '0':
+                        continue
+                    stack.append((_x, _y))
+        return res
+
+    def numIslands_v1(self, grid: List[List[str]]) -> int:
         disjointed_set: UnionFind = UnionFind()
 
         # 1. Initialize grid using each coordination
@@ -65,7 +91,7 @@ class Solution:
 
         return len(res)
 
-    def _numIslands(self, grid: List[List[str]]) -> int:
+    def numIslands_v0(self, grid: List[List[str]]) -> int:
         m, n = len(grid), len(grid[0])
         cnt = 0
         accessed = [[False] * n for _ in range(m)]
