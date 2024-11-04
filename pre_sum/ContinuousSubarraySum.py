@@ -9,6 +9,20 @@ from test_tool import assert_value
 
 class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        cache = {0: -1}
+        pre_sum = 0
+        for i in range(len(nums)):
+            pre_sum += nums[i]
+            pre_sum %= k
+            if pre_sum not in cache:
+                cache[pre_sum] = i
+                continue
+            if i - cache[pre_sum] > 1:
+                return True
+
+        return False
+
+    def checkSubarraySum_v0(self, nums: List[int], k: int) -> bool:
         pre_sum = [0]
         for num in nums:
             pre_sum.append(pre_sum[-1] + num)
