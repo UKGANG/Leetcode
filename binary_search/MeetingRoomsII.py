@@ -3,6 +3,8 @@
 https://leetcode.com/problems/meeting-rooms-ii/
 '''
 import bisect
+import heapq
+import operator
 from typing import List
 
 from test_tool import assert_value
@@ -10,6 +12,32 @@ from test_tool import assert_value
 
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        starts = map(operator.itemgetter(0), intervals)
+        ends = map(operator.itemgetter(1), intervals)
+        starts = sorted(starts)
+        ends = sorted(ends)
+
+        res = 0
+        end_idx = 0
+        for start_idx in range(len(starts)):
+            if starts[start_idx] < ends[end_idx]:
+                res += 1
+            else:
+                end_idx += 1
+
+        return res
+
+    def minMeetingRooms_v1(self, intervals: List[List[int]]) -> int:
+        intervals = sorted(intervals)
+
+        available_ending_time = []
+        for start, end in intervals:
+            if available_ending_time and available_ending_time[0] <= start:
+                heapq.heappop(available_ending_time)
+            heapq.heappush(available_ending_time, end)
+        return len(available_ending_time)
+
+    def minMeetingRooms_v0(self, intervals: List[List[int]]) -> int:
         if not intervals:
             return 0
         intervals = sorted(intervals)
