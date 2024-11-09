@@ -11,6 +11,36 @@ from test_tool import assert_value
 class RandomizedSet:
 
     def __init__(self):
+        self.val_cache = []
+        self.idx_cache = {}
+
+    def insert(self, val: int) -> bool:
+        if val in self.idx_cache:
+            return False
+        self.val_cache.append(val)
+        self.idx_cache[val] = len(self.val_cache) - 1
+        return True
+
+    def remove(self, val: int) -> bool:
+        if val not in self.idx_cache:
+            return False
+        idx_val = self.idx_cache[val]
+        idx_last = len(self.val_cache) - 1
+        val_last = self.val_cache[-1]
+        self.val_cache[idx_val], self.val_cache[idx_last] = self.val_cache[idx_last], self.val_cache[idx_val]
+        self.idx_cache[val_last] = idx_val
+
+        del self.idx_cache[val]
+        self.val_cache.pop()
+        return True
+
+    def getRandom(self) -> int:
+        return random.choice(self.val_cache)
+
+
+class RandomizedSet_V0:
+
+    def __init__(self):
         """
         Initialize your data structure here.
         """
