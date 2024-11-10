@@ -9,6 +9,43 @@ from test_tool import assert_value
 
 class Solution:
     def addOperators(self, num: str, target: int) -> List[str]:
+        def backtrack(i, curr, prev, exp, res):
+            if i == len(num) and curr == target:
+                res.append(''.join(exp))
+                return
+            for j in range(i + 1, len(num) + 1):
+                if j > i + 1 and num[i] == '0':
+                    break
+                n = int(num[i:j])
+                if i == 0:
+                    exp.append(num[i:j])
+                    backtrack(j, n, n, exp, res)
+                    exp.pop()
+                    continue
+                exp.append('+')
+                exp.append(num[i:j])
+                backtrack(j, curr + n, n, exp, res)
+                exp.pop()
+                exp.pop()
+
+                exp.append('-')
+                exp.append(num[i:j])
+                backtrack(j, curr - n, -n, exp, res)
+                exp.pop()
+                exp.pop()
+
+                exp.append('*')
+                exp.append(num[i:j])
+                backtrack(j, curr - prev + prev * n, prev * n, exp, res)
+                exp.pop()
+                exp.pop()
+
+        res = []
+        exp = []
+        backtrack(0, 0, 0, exp, res)
+        return res
+
+    def addOperators(self, num: str, target: int) -> List[str]:
         res = []
         curr_level = [('', num, 0, None)]
         while curr_level:
